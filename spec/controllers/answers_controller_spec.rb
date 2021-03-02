@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
+  
   describe 'GET #index' do
     let(:answers) { create_list(:answer, 3, question: question) }
 
@@ -27,6 +28,17 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'renders show view' do
       expect(response).to render_template :show
+    end
+  end
+
+  describe 'GET #new' do
+    before { get :new, params: { question_id: question } }
+
+    it 'assigns a new Answer to @answer' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+    it 'renders new view' do
+      expect(response).to render_template :new
     end
   end
 end
