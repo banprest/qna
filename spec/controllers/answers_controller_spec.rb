@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-
+  let(:question) { create(:question) }
   describe 'GET #index' do
-    let(:question) { create(:question) }
     let(:answers) { create_list(:answer, 3, question: question) }
 
     before { get :index, params: { question_id: question } }
@@ -17,4 +16,17 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    let(:answer) { create(:answer, question: question) }
+
+    before { get :show, params: { question_id: question, id: answer } }
+
+    it 'assigns the requsted question to @question' do
+      expect(assigns(:answer)).to eq answer
+    end
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
 end
