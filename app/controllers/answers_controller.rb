@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
-  before_action :load_question, only: [:index, :new]
-  before_action :load_answer, only: [:show]
+  before_action :load_question, only: [:index, :new, :create]
+  before_action :load_answer, only: [:show, :edit]
 
   def index
     @answers = @question.answers
@@ -13,6 +13,18 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new
   end
 
+  def edit
+  end
+
+  def create
+    @answer = @question.answers.new(answer_params)
+    if @answer.save
+      redirect_to @answer
+    else
+      render :new
+    end
+  end
+
   private
     
   def load_question
@@ -21,5 +33,9 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def answer_params
+    params.require(:answer).permit(:body)
   end
 end
