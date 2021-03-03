@@ -19,7 +19,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #show' do
-    before { get :show, params: { question_id: question, id: answer } }
+    before { get :show, params: { id: answer } }
 
     it 'assigns the requsted answer to @answer' do
       expect(assigns(:answer)).to eq answer
@@ -42,7 +42,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
-    before { get :edit, params: { question_id: question, id: answer } }
+    before { get :edit, params: { id: answer } }
 
     it 'assigns the requsted answer to @answer' do 
       expect(assigns(:answer)).to eq answer
@@ -73,6 +73,39 @@ RSpec.describe AnswersController, type: :controller do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template :new
       end     
+    end
+  end
+
+  describe 'PATCH #update' do
+    context 'with valid attributes' do
+      it 'assigns the requsted answer to @answer' do 
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        expect(assigns(:answer)).to eq answer
+      end
+      it 'change answer attributtes' do
+        patch :update, params: { id: answer, answer: { body: 'new body' } }
+        answer.reload
+
+        expect(answer.body).to eq 'new body'
+      end
+      it 'redirects to update answer' do
+        patch :update, params: { id: answer, answer: attributes_for(:answer) }
+        expect(response).to redirect_to answer
+      end
+    end 
+
+    context 'with invalid attributes' do
+      before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
+      
+      it 'does not change attributes' do
+        answer.reload
+
+        expect(answer.body).to eq 'MyText'
+      end
+
+      it 're-renders edit view' do
+        expect(response).to render_template :edit
+      end
     end
   end
 end
