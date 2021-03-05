@@ -11,7 +11,6 @@ feature 'User can view list question', %q{
   scenario 'User can view list questions' do
     visit questions_path
 
-    save_and_open_page
     questions.each do |question|
       expect(page).to have_content question.title
     end

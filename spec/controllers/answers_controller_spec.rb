@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  let(:user) { create(:user) }
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question) }
   
@@ -31,6 +32,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #new' do
+    before { login(user) }
+
     before { get :new, params: { question_id: question } }
 
     it 'assigns a new Answer to @answer' do
@@ -42,6 +45,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
+    before { login(user) }
+
     before { get :edit, params: { id: answer } }
 
     it 'assigns the requsted answer to @answer' do 
@@ -54,13 +59,15 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'saves a new answer in the database' do
         expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(question.answers, :count).by(1)
       end
       it 'redirects to show view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to assigns(:answer)
+        expect(response).to redirect_to assigns(:answer).question
       end
     end
 
@@ -71,12 +78,14 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end     
     end
   end
 
   describe 'PATCH #update' do
+    before { login(user) }
+
     context 'with valid attributes' do
       it 'assigns the requsted answer to @answer' do 
         patch :update, params: { id: answer, answer: attributes_for(:answer) }
@@ -110,6 +119,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DElETE #destroy' do
+    before { login(user) }
+
     let!(:answer) { create(:answer, question: question) }
 
     it 'delete answer' do
