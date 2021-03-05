@@ -3,11 +3,15 @@ FactoryBot.define do
     "title#{n}"
   end
   factory :question do
-    title
+    title { "MyString" }
     body { "MyText" }
 
     trait :invalid do
       title { nil }
+    end
+
+    trait :questions do
+      title
     end
   end
 end
