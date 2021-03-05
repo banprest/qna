@@ -1,1 +1,4 @@
 p= answer.body
+
+- unless answer.id.nil?
+  = link_to 'Delete answer', answer_path(answer), method: :delete

@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question) }
+  let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, question: question, user: user) }
   
   describe 'GET #index' do
-    let(:answers) { create_list(:answer, 3, question: question) }
+    let(:answers) { create_list(:answer, 3, question: question, user: user) }
 
     before { get :index, params: { question_id: question } }
 
@@ -121,7 +121,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DElETE #destroy' do
     before { login(user) }
 
-    let!(:answer) { create(:answer, question: question) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
     it 'delete answer' do
       expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)

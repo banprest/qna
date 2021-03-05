@@ -19,6 +19,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.new(answer_params)
+    @answer.user = current_user
     if @answer.save
       redirect_to @answer.question, notice: 'You answer succesfuly created'
     else
@@ -35,8 +36,12 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy
-    redirect_to question_answers_path(@answer.question)
+    if current_user == @answer.user
+      @answer.destroy
+      redirect_to question_answers_path(@answer.question), notice: 'Answer deleted'
+    else
+      redirect_to question_path(@answer.question), notice: 'You not author question'
+    end
   end
 
   private

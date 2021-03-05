@@ -6,8 +6,9 @@ feature 'User can view list answer', %q{
   I'd like to be able to create the answer
 } do 
 
-  given!(:question) { create(:question) }
-  given!(:answers) { create_list(:answer, 3, :answers, question: question) }
+  given(:user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:answers) { create_list(:answer, 3, :answers, question: question, user: user) }
 
   scenario 'User can view list questions' do
     visit question_path(question)

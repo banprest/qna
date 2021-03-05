@@ -4,11 +4,11 @@ feature 'User can create answer', %q{
   In order to give an answer to the question
   As an authenticate user
   I'd like to be able to create the answer
-}do 
-  given(:question) { create(:question) }
+}do
+  given(:user) { create(:user) } 
+  given!(:question) { create(:question, user: user) }
 
   describe do
-    given(:user) { create(:user) }
 
     background do
       sign_in(user)
