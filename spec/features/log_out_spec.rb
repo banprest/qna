@@ -14,8 +14,14 @@ feature 'User can log_out', %q{
     fill_in 'Password', with: user.password
     click_on 'Log in'
 
-    click_on 'Log_out'
+    click_on 'Log out'
 
     expect(page).to have_content 'Signed out successfully.'
+  end
+
+  scenario 'Unauthenticated user tried log out' do
+    visit questions_path
+
+    expect(page).to have_no_content 'Log out'
   end
 end
