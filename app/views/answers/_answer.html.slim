@@ -1,4 +1,4 @@
 p= answer.body
 
-- unless answer.id.nil?
+- if answer.id.present? && (current_user.present? && current_user.author?(answer))
   = link_to 'Delete answer', answer_path(answer), method: :delete

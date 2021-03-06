@@ -8,23 +8,45 @@ feature 'Author can delete question', %q{
   
   given(:user) { create(:user) }
   given(:user1) { create(:user) }
-  given(:question) { create(:question, user: user) }
 
   scenario 'Author delete question' do
     sign_in(user)
-    visit question_path(question)
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Title', with: 'title title'
+    fill_in 'Body', with: 'text text'
+    click_on 'Ask'
+
+    expect(page).to have_content 'You question successfuly created.'
+    expect(page).to have_content 'title title'
+    expect(page).to have_content 'text text'
 
     click_on 'Delete question'
 
     expect(page).to have_content 'Question deleted'
+    expect(page).to have_content 'Ask question'
+    expect(page).to have_no_content 'title title'
+    expect(page).to have_no_content 'text text'
   end
 
-  scenario 'Not author tried delete question' do
-    sign_in(user1)
-    visit question_path(question)
+  describe do
+    given!(:question) { create(:question, user: user) }
+    
+    scenario 'Not author tried delete question' do
+      sign_in(user1)
+      visit question_path(question)
 
-    click_on 'Delete question'
+      expect(page).to have_content 'MyText'
+      expect(page).to have_content 'MyString'
+      expect(page).to have_no_content 'Delete question'
+    end
 
-    expect(page).to have_content 'You not author question'
+    scenario 'Unauthenticated user tried delete question' do
+      visit question_path(question)
+
+      expect(page).to have_content 'MyText'
+      expect(page).to have_content 'MyString'
+      expect(page).to have_no_content 'Delete question'
+    end
   end
 end
