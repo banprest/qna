@@ -1,0 +1,15 @@
+h1= @question.title
+p= @question.body
+
+- if (current_user.present? && current_user.author?(@question))
+  = link_to 'Delete question', question_path(@question), method: :delete
+
+= render @question.answers
+
+= render 'shared/errors', resource: @answer
+
+= form_with model: [@question, @answer], local: true do |f|
+  = f.label :body
+  = f.text_area :body
+  = f.submit 'Accept'
+
