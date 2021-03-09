@@ -10,3 +10,4 @@ require("channels")
 require("jquery")
 
 require("utilities/answers.js")
+require("utilities/question.js")
