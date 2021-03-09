@@ -113,7 +113,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq 'MyText'
       end
 
-      it 're-rendre edit view' do
+      it 're-rendre edit update' do
         expect(response).to render_template :update
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'delete question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
-      it 'redirects to questions' do
+      it 'redirect_to questions_path' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
       end
@@ -142,7 +142,7 @@ RSpec.describe QuestionsController, type: :controller do
       it 'delete question' do
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
       end
-      it 'redirects to questions' do
+      it 'redirect_to show' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to question_path(question)
       end

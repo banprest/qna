@@ -30,12 +30,9 @@ class AnswersController < ApplicationController
 
   def destroy
     if current_user.author?(@answer)
+      @question = @answer.question
       @answer.destroy
-      flash_options = { notice: 'Answer deleted' }
-    else
-      flash_options = { notice: 'You not author question' }
     end
-    redirect_to question_path(@answer.question), flash_options
   end
 
   private

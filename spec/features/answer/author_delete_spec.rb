@@ -20,9 +20,9 @@ feature 'Author can delete answer', %q{
 
     click_on 'Delete answer'
 
-    expect(page).to have_content 'Answer deleted'
     expect(page).to have_no_content 'text text'
   end
+  
   describe do
     given!(:answer) { create(:answer, user: user, question: question) }
     
