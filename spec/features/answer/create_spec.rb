@@ -8,7 +8,7 @@ feature 'User can create answer', %q{
   given(:user) { create(:user) } 
   given!(:question) { create(:question, user: user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
 
     background do
       sign_in(user)
@@ -19,8 +19,9 @@ feature 'User can create answer', %q{
       fill_in 'Body', with: 'text text' 
       click_on 'Accept'
 
-      expect(page).to have_content 'You answer succesfuly created'
-      expect(page).to have_content 'text text'
+      within '.answers' do
+        expect(page).to have_content 'text text'
+      end
     end
 
     scenario 'create answer with ivalid attributes' do
