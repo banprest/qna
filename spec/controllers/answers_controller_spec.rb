@@ -113,6 +113,44 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #best' do
+
+    let(:user1) { create(:user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
+    
+    context 'Author mark answer' do
+      before { login(user) }
+
+      it 'mark answer' do
+        patch :best, params: { id: answer }, format: :js
+        answer.reload
+
+        expect(answer.best).to eq true
+      end
+
+      it 'render best' do
+        patch :best, params: { id: answer }, format: :js
+        expect(response).to render_template :best
+      end
+    end
+
+    context 'Not author tred mark answer' do
+      before { login(user1) }
+
+      it 'tried mark answer' do
+        patch :best, params: { id: answer }, format: :js
+        answer.reload
+
+        expect(answer.best).to eq false
+      end
+
+      it 'render best' do
+        patch :best, params: { id: answer }, format: :js
+        expect(response).to render_template :best
+      end
+    end
+  end
+
   describe 'DElETE #destroy' do
 
     let(:user1) { create(:user) }
