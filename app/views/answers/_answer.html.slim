@@ -1,6 +1,9 @@
 - if answer.best
   p= 'Best Answer'
 p= answer.body
+- if answer.files.attached?
+    - answer.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
 
 - if answer.persisted? && current_user&.author?(@question)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
