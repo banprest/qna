@@ -1,7 +1,7 @@
 .question  
   h1= @question.title
   p= @question.body
-  - if (current_user.present? && current_user.author?(@question))
+  - if current_user&.author?(@question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
     .question-edit-errors
     = form_with model: @question, local: false, class: 'hidden', html: { id: "edit-question-#{@question.id}" } do |f|

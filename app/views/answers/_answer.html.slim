@@ -2,7 +2,7 @@
   p= 'Best Answer'
 p= answer.body
 
-- if answer.id.present? && (user_signed_in? && current_user.author?(answer))
+- if answer.persisted? && current_user&.author?(@question)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
   p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
   
