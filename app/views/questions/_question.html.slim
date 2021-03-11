@@ -1,3 +1,24 @@
-h1= question.title
-p= question.body
-= link_to question.title, question
+.question  
+  h1= question.title
+  p= question.body
+  
+  - if question.files.attached?
+    - question.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
+
+  - if current_user&.author?(question)
+    p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
+    .question-edit-errors
+    = form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+      p 
+        = f.label :title, 'Your Title'
+        = f.text_field :title
+      p  
+        = f.label :body, 'Your Question'
+        = f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true
+      p= f.submit 'Save'
+
+    p= link_to 'Delete question', question_path(question), method: :delete
