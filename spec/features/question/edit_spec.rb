@@ -19,12 +19,14 @@ feature 'User can edit his question', %q{
   describe 'Authenticated user', js: true do
 
     describe 'Author' do
+      
       background do
         sign_in(user)
         visit question_path(question)
 
         click_on 'Edit'
       end 
+      
       scenario 'edits his question' do
         within '.question' do
           fill_in 'Your Title', with: 'edited title'
