@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:index, :new, :create]
-  before_action :load_answer, only: [:show, :edit, :update, :destroy]
+  before_action :load_answer, only: [:show, :edit, :update, :destroy, :best]
 
   def index
     @answers = @question.answers
@@ -20,29 +20,24 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
-    if @answer.save
-      redirect_to @answer.question, notice: 'You answer succesfuly created'
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
   def update
-    if @answer.update(answer_params)
-      redirect_to @answer
-    else
-      render :edit
-    end
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
     if current_user.author?(@answer)
+      @question = @answer.question
       @answer.destroy
-      flash_options = { notice: 'Answer deleted' }
-    else
-      flash_options = { notice: 'You not author question' }
     end
-    redirect_to question_path(@answer.question), flash_options
+  end
+
+  def best
+    @answer.mark_as_best if current_user.author?(@answer)
+    @question = @answer.question 
   end
 
   private

@@ -1,15 +1,28 @@
-h1= @question.title
-p= @question.body
+.question  
+  h1= @question.title
+  p= @question.body
+  - if current_user&.author?(@question)
+    p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
+    .question-edit-errors
+    = form_with model: @question, local: false, class: 'hidden', html: { id: "edit-question-#{@question.id}" } do |f|
+      p 
+        = f.label :title, 'Your Title'
+        = f.text_field :title
+      p  
+        = f.label :body, 'Your Question'
+        = f.text_area :body
+      p= f.submit 'Save'
 
-- if (current_user.present? && current_user.author?(@question))
-  = link_to 'Delete question', question_path(@question), method: :delete
+    p= link_to 'Delete question', question_path(@question), method: :delete
 
-= render @question.answers
+.answers 
+  = render @answers
 
-= render 'shared/errors', resource: @answer
-
-= form_with model: [@question, @answer], local: true do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Accept'
+.answer-errors
+  = render 'shared/errors', resource: @answer
+= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+  p
+    = f.label :body
+    = f.text_area :body
+  p= f.submit 'Accept'
 

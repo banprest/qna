@@ -1,4 +1,18 @@
+- if answer.best
+  p= 'Best Answer'
 p= answer.body
 
-- if answer.id.present? && (current_user.present? && current_user.author?(answer))
-  = link_to 'Delete answer', answer_path(answer), method: :delete
+- if answer.persisted? && current_user&.author?(@question)
+  p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
+  p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+  
+  .edit-errors
+  = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+    p
+      = f.label :body, 'Your Answer'
+      = f.text_area :body
+    p= f.submit 'Save'
+
+  p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+
+
