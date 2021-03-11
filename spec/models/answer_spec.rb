@@ -8,8 +8,8 @@ RSpec.describe Answer, type: :model do
   describe 'Mark best answer' do
     let(:user) { create(:user) }
     let(:question) { create(:question, user: user) }
-    let(:answer) { create(:answer, question: question, user: user) }
-    let(:answer1) { create(:answer, question: question, user: user)}
+    let!(:answer) { create(:answer, question: question, user: user) }
+    let!(:answer1) { create(:answer, question: question, user: user)}
 
     it 'mark answer1 and check him' do
       answer1.mark_as_best
