@@ -4,7 +4,6 @@
   = render @answers
 
 .answer-errors
-  = render 'shared/errors', resource: @answer
 = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
   p
     = f.label :body

@@ -14,6 +14,9 @@ p= answer.body
     p
       = f.label :body, 'Your Answer'
       = f.text_area :body
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true
     p= f.submit 'Save'
 
   p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
