@@ -151,7 +151,45 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'DElETE #destroy' do
+  describe 'DELETE #destroy_file' do
+
+    let(:user1) { create(:user) }
+    let!(:answer) { create(:answer, question: question, user: user) }
+
+    context 'Author delete file' do
+      before { login(user) }
+      
+      it 'delete file' do
+        answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
+        
+        expect { delete :destroy_file, params: { id: answer.files[0].signed_id }, format: :js }.to change(answer.files, :count).by(-1)
+      end
+
+      it 'render destroy_file' do
+        answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
+        delete :destroy_file, params: { id: answer.files[0].signed_id }, format: :js
+        expect(response).to render_template :destroy_file
+      end
+    end
+
+    context 'Not author tried delete file' do
+      before { login(user1) }
+      
+      it 'tried delete file' do
+        answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
+        
+        expect { delete :destroy_file, params: { id: answer.files[0].signed_id }, format: :js }.to_not change(answer.files, :count)
+      end
+
+      it 'render destroy_file' do
+        answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
+        delete :destroy_file, params: { id: answer.files[0].signed_id }, format: :js
+        expect(response).to render_template :destroy_file
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
 
     let(:user1) { create(:user) }
     let!(:answer) { create(:answer, question: question, user: user) }

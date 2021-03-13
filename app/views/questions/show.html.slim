@@ -3,13 +3,14 @@
 .answers 
   = render @answers
 
-.answer-errors
-= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-  p
-    = f.label :body
-    = f.text_area :body
-  p
-    = f.label :files
-    = f.file_field :files, multiple: true
-  p= f.submit 'Accept'
+.answer-new
+  .answer-errors
+  = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+    p
+      = f.label :body
+      = f.text_area :body
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true
+    p= f.submit 'Accept'
 
