@@ -31,7 +31,23 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  config.active_storage.service = :microsoft
+  
+  #Подскажите пожалуйста не могу подключть облачный сервис. В консоле:
+  #Started POST "/rails/active_storage/direct_uploads" for ::1 at 2021-03-13 19:26:08 +0300
+  #Processing by ActiveStorage::DirectUploadsController#create as JSON
+  #Parameters: {"blob"=>{"filename"=>"car.rb", "content_type"=>"application/x-ruby", "byte_size"=>4141, "checksum"=>"jFnIczwFUT9HjmBKbPue6w=="}, "direct_upload"=>{"blob"=>{"filename"=>"car.rb", "content_type"=>"application/x-ruby", "byte_size"=>4141, "checksum"=>"jFnIczwFUT9HjmBKbPue6w=="}}}
+  #TRANSACTION (8.1ms)  BEGIN
+  #ActiveStorage::Blob Create (1.1ms)  INSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "service_name", "byte_size", "checksum", "created_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"  [["key", "9eageuyd0033r4unsgks3wprsa0u"], ["filename", "car.rb"], ["content_type", "application/x-ruby"], ["service_name", "microsoft"], ["byte_size", 4141], ["checksum", "jFnIczwFUT9HjmBKbPue6w=="], ["created_at", "2021-03-13 16:26:08.847400"]]
+  #TRANSACTION (1.5ms)  COMMIT
+  #AzureStorage Storage (0.9ms) Generated URL for file at key: 9eageuyd0033r4unsgks3wprsa0u (https://qna.blob.core.windows.net/banprest/9eageuyd0033r4unsgks3wprsa0u?sp=rw&sv=2018-11-09&se=2021-03-13T16%3A31%3A08Z&sr=b&sig=1iHDVa89%2BGWzVIlOtOYAmrFhr3ERvLCDcibY%2FKjifl4%3D)
+  #Completed 200 OK in 148ms (Views: 0.3ms | ActiveRecord: 17.3ms | Allocations: 48130)
+  #По ссылке:
+  #<Code>BlobNotFound</Code>
+  #<Message>The specified blob does not exist. RequestId:6e37515d-b01e-000c-4d25-18e40e000000 Time:2021-03-13T16:26:15.0427164Z</Message>
+
+
+  config.require_master_key = true
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
