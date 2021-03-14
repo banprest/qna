@@ -35,13 +35,6 @@ class AnswersController < ApplicationController
     end
   end
 
-  def destroy_file
-    @file = ActiveStorage::Blob.find_signed(params[:id])
-    @answer = @file.attachments.first.record
-    @question = @answer.question
-    @file.attachments.first.purge if current_user.author?(@answer)
-  end
-
   def best
     @answer.mark_as_best if current_user.author?(@answer)
     @question = @answer.question 

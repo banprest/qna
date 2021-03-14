@@ -6,7 +6,7 @@ p= answer.body
     - answer.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
       - if current_user&.author?(answer)
-        p= link_to "Delete file", destroy_file_answer_path(file.signed_id), method: :delete, remote: true
+        p= link_to "Delete file", attachment_path(file.signed_id), method: :delete, remote: true
 
 - if answer.persisted? && current_user&.author?(answer)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
