@@ -1,8 +1,14 @@
 - if answer.best
   p= 'Best Answer'
 p= answer.body
+.answer-files  
+  - if answer.files.attached?
+    - answer.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
+      - if current_user&.author?(answer)
+        p= link_to "Delete file", attachment_path(file.id), method: :delete, remote: true
 
-- if answer.persisted? && current_user&.author?(@question)
+- if answer.persisted? && current_user&.author?(answer)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
   p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
   
@@ -11,6 +17,9 @@ p= answer.body
     p
       = f.label :body, 'Your Answer'
       = f.text_area :body
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
     p= f.submit 'Save'
 
   p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true

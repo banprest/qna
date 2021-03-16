@@ -151,7 +151,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe 'DElETE #destroy' do
+  describe 'DELETE #destroy' do
 
     let(:user1) { create(:user) }
     let!(:answer) { create(:answer, question: question, user: user) }
