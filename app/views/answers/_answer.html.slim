@@ -8,6 +8,12 @@ p= answer.body
       - if current_user&.author?(answer)
         p= link_to "Delete file", attachment_path(file.id), method: :delete, remote: true
 
+.links
+  p Links:
+  ul
+    -answer.links.each do |link|
+      li= link_to link.name, link.url
+
 - if answer.persisted? && current_user&.author?(answer)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
   p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
