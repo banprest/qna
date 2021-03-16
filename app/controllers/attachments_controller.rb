@@ -1,13 +1,13 @@
 class AttachmentsController < ApplicationController
 
   def destroy
-    @file = ActiveStorage::Blob.find_signed(params[:id])
-    @variable = @file.attachments.first.record
-    @file.attachments.first.purge if current_user.author?(@variable)
-    if @variable.class == Question
-      redirect_to question_path(@variable)
+    @file = ActiveStorage::Attachment.find(params[:id])
+    @object = @file.record
+    @file.purge if current_user.author?(@object)
+    if @object.is_a?(Question)
+      redirect_to question_path(@object)
     else
-      @question = @variable.question
+      @question = @object.question
     end
   end
 end

@@ -17,12 +17,12 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'delete file' do
         answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
         
-        expect { delete :destroy, params: { id: answer.files[0].signed_id }, format: :js }.to change(answer.files, :count).by(-1)
+        expect { delete :destroy, params: { id: answer.files[0].id }, format: :js }.to change(answer.files, :count).by(-1)
       end
 
       it 'render destroy' do
         answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
-        delete :destroy, params: { id: answer.files[0].signed_id }, format: :js
+        delete :destroy, params: { id: answer.files[0].id }, format: :js
         expect(response).to render_template :destroy
       end
     end
@@ -33,12 +33,12 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'delete file' do
         question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
         
-        expect { delete :destroy, params: { id: question.files[0].signed_id } }.to change(question.files, :count).by(-1)
+        expect { delete :destroy, params: { id: question.files[0].id } }.to change(question.files, :count).by(-1)
       end
 
       it 'render destroy' do
         question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
-        delete :destroy, params: { id: question.files[0].signed_id }
+        delete :destroy, params: { id: question.files[0].id }
         expect(response).to redirect_to question_path(question)
       end
     end
@@ -49,12 +49,12 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'tried delete file' do
         question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
         
-        expect { delete :destroy, params: { id: question.files[0].signed_id } }.to_not change(question.files, :count)
+        expect { delete :destroy, params: { id: question.files[0].id } }.to_not change(question.files, :count)
       end
 
       it 'render destroy' do
         question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
-        delete :destroy, params: { id: question.files[0].signed_id }
+        delete :destroy, params: { id: question.files[0].id }
         expect(response).to redirect_to question_path(question)
       end
     end
@@ -65,12 +65,12 @@ RSpec.describe AttachmentsController, type: :controller do
       it 'tried delete file' do
         answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
         
-        expect { delete :destroy, params: { id: answer.files[0].signed_id }, format: :js }.to_not change(answer.files, :count)
+        expect { delete :destroy, params: { id: answer.files[0].id }, format: :js }.to_not change(answer.files, :count)
       end
 
       it 'render destroy' do
         answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: "rails_helper.rb")
-        delete :destroy, params: { id: answer.files[0].signed_id }, format: :js
+        delete :destroy, params: { id: answer.files[0].id }, format: :js
         expect(response).to render_template :destroy
       end
     end

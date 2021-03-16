@@ -33,19 +33,11 @@ feature 'Author can delete answer', %q{
     end
 
     scenario 'delete file with answer', js: true do
-      within '.answer-files' do
-        expect(page).to have_link 'rails_helper.rb'
-        click_on "Delete file"
+      expect(page).to have_link 'rails_helper.rb'
 
-        expect(page).to_not have_link 'rails_helper.rb'
-      end
-      # Подскажите пожалуйста. Этот тест проходит через раз
-      # Если не проходит:
-      # Failure/Error: expect(page).to_not have_link 'rails_helper.rb'
-      # Selenium::WebDriver::Error::StaleElementReferenceError:
-      # stale element reference: element is not attached to the page document
-      # (Session info: headless chrome=89.0.4389.82)
-      # Что я сделал не так?
+      click_on "Delete file"
+
+      expect(page).to_not have_link 'rails_helper.rb'
     end
   end
   
