@@ -26,6 +26,11 @@ p= answer.body
     p
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+    h3 Links:
+    #links
+      .links
+        = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+          
     p= f.submit 'Save'
 
   p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true

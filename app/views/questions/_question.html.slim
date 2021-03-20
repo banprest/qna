@@ -17,7 +17,7 @@
   - if current_user&.author?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     .question-edit-errors
-    = form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+    = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |f|
       p 
         = f.label :title, 'Your Title'
         = f.text_field :title
@@ -27,6 +27,12 @@
       p
         = f.label :files
         = f.file_field :files, multiple: true, direct_upload: true
+
+      h3 Links:
+      #links
+        .links
+          = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+
       p= f.submit 'Save'
 
     p= link_to 'Delete question', question_path(question), method: :delete

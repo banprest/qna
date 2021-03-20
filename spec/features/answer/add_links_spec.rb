@@ -9,18 +9,33 @@ feature 'User can add links for answer', %q{
   given!(:question) { create(:question, user: user) }
   given(:google_url) { 'https://www.google.ru/' }
 
-  scenario 'User add link when ask answer', js: true do
+  before do
     sign_in(user)
     visit question_path(question)
 
     fill_in 'Body', with: 'text text'
+  end
 
-    fill_in 'Link_name', with: 'Google'
-    fill_in 'link', with: google_url
-    
-    click_on 'Accept'
-    within '.answers' do
-      expect(page).to have_link 'Google', href: google_url
+  scenario 'User add link when ask answer', js: true do
+    within '.answer-new' do
+      fill_in 'Link_name', with: 'Google'
+      fill_in 'link', with: google_url
+      
+      click_on 'Accept'
     end
+
+    expect(page).to have_link 'Google', href: google_url
+  end
+
+
+  scenario 'User tried add invalid link when ask answer', js: true do
+    within '.answer-new' do
+      fill_in 'Link_name', with: 'Google'
+      fill_in 'link', with: 'google_url'
+      
+      click_on 'Accept'
+    end
+
+    expect(page).to have_content 'Links url is invalid'
   end
 end
