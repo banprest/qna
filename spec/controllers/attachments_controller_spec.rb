@@ -8,9 +8,6 @@ RSpec.describe AttachmentsController, type: :controller do
 
   describe 'DELETE #destroy' do
 
-    let(:user1) { create(:user) }
-    let!(:answer) { create(:answer, question: question, user: user) }
-
     context 'Author delete answer file' do
       before { login(user) }
       

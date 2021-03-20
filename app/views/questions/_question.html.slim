@@ -13,6 +13,8 @@
     ul
       -question.links.each do |link|
         li= link_to link.name, link.url
+        - if current_user&.author?(question)
+          p= link_to "Delete link", link_path(link), method: :delete, remote: true
 
   - if current_user&.author?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }

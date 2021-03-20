@@ -13,6 +13,8 @@ p= answer.body
   ul
     -answer.links.each do |link|
       li= link_to link.name, link.url
+      - if current_user&.author?(answer)
+          p= link_to "Delete link", link_path(link), method: :delete, remote: true
 
 - if answer.persisted? && current_user&.author?(answer)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
