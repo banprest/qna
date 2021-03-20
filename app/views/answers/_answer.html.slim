@@ -18,7 +18,7 @@ p= answer.body
       - if current_user&.author?(answer)
           p= link_to "Delete link", link_path(link), method: :delete, remote: true
 
-- if answer.persisted? && current_user&.author?(answer)
+- if answer.persisted? && current_user&.author?(answer.question)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
   p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
   
