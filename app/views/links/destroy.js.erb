@@ -1,0 +1,5 @@
+<% if @object.is_a?(Question) %>
+  $('.question').html("<%= j render @object %>")
+<% else %>
+  $('.answers').html('<%= j render @object %>')
+<% end %>

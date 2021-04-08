@@ -8,7 +8,17 @@ p= answer.body
       - if current_user&.author?(answer)
         p= link_to "Delete file", attachment_path(file.id), method: :delete, remote: true
 
-- if answer.persisted? && current_user&.author?(answer)
+.links
+  p Links:
+  ul
+    -answer.links.each do |link|
+      li= link_to link.name, link.url
+      - if link.gist?
+        = javascript_include_tag link.url + '.js'
+      - if current_user&.author?(answer)
+          p= link_to "Delete link", link_path(link), method: :delete, remote: true
+
+- if answer.persisted? && current_user&.author?(answer.question)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
   p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
   
@@ -20,6 +30,11 @@ p= answer.body
     p
       = f.label :files
       = f.file_field :files, multiple: true, direct_upload: true
+    h3 Links:
+    #links
+      .links
+        = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+          
     p= f.submit 'Save'
 
   p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true

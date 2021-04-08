@@ -1,0 +1,28 @@
+= form_with model: @question, local: false do |f|
+  p 
+    = f.label :title
+    = f.text_field :title
+  p  
+    = f.label :body
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+  h3 Reward:
+  #reward 
+    = f.fields_for :reward do |r|
+      p
+        = r.label :reward_title, 'Reward'
+        = r.text_field :reward_title
+      p
+        = r.label :image, 'Image'
+        = r.text_field :image
+
+  h3 Links:
+  #links
+    = f.fields_for :links do |link|
+      = render 'shared/link_fields', f: link
+    .links
+      = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+
+  p= f.submit 'Ask'

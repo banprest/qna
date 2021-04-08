@@ -1,18 +1,27 @@
 .question  
   h1= question.title
   p= question.body
-  
+  p= question.reward&.reward_title
   .question-files
     - if question.files.attached?
       - question.files.each do |file|
         p= link_to file.filename.to_s, url_for(file)
         - if current_user&.author?(question)
           p= link_to "Delete file", attachment_path(file.id), method: :delete, remote: true
+  .links
+    p Links:
+    ul
+      -question.links.each do |link|
+        li= link_to link.name, link.url
+        - if link.gist?
+          = javascript_include_tag link.url + '.js'
+        - if current_user&.author?(question)
+          p= link_to "Delete link", link_path(link), method: :delete, remote: true
 
   - if current_user&.author?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     .question-edit-errors
-    = form_with model: question, local: false, class: 'hidden', html: { id: "edit-question-#{question.id}" } do |f|
+    = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |f|
       p 
         = f.label :title, 'Your Title'
         = f.text_field :title
@@ -22,6 +31,12 @@
       p
         = f.label :files
         = f.file_field :files, multiple: true, direct_upload: true
+
+      h3 Links:
+      #links
+        .links
+          = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+
       p= f.submit 'Save'
 
     p= link_to 'Delete question', question_path(question), method: :delete

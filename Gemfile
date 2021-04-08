@@ -31,6 +31,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
+gem 'cocoon'
 
 
 group :development, :test do
