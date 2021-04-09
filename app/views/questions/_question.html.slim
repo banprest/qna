@@ -3,10 +3,11 @@
   p= question.body
   .question-rating
     p= link_to 'Voted +1', vote_up_question_path(question), method: :post, remote: true
+    p= link_to 'Voted -1', vote_down_question_path(question), method: :post, remote: true
+    p= link_to 'Cancel vote', cancel_vote_question_path(question), method: :post, remote: true
     div class = "rating-#{question.id}"
       - if question.votes.present?
-        p Rating: 
-        = question.rating || 0
+        p= "Rating: #{question.rating}"
   
   p= question.reward&.reward_title
   .question-files

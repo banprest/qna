@@ -10,10 +10,12 @@ class QuestionsController < ApplicationController
 
   def vote_down
     @question.vote(current_user, -1)
+    render json: { id: @question.id, rating: @question.rating }
   end
 
   def cancel_vote
     @question.cancel_vote(current_user)
+    render json: { id: @question.id, rating: @question.rating }
   end
 
   def index

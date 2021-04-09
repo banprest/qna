@@ -18,8 +18,25 @@ feature 'User can rate question', %q{
 
       expect(page).to have_content 'Rating: 1'
     end
-    scenario 'voted -1'
-    scenario 'cancel vote'
+
+    scenario 'voted -1', js: true do
+      sign_in(user1)
+      visit question_path(question)
+
+      click_on 'Voted -1'
+
+      expect(page).to have_content 'Rating: -1'
+    end
+
+    scenario 'cancel vote', js: true do
+      sign_in(user1)
+      visit question_path(question)
+
+      click_on 'Voted +1'
+      click_on 'Cancel vote'
+
+      expect(page).to have_content 'Rating: 0'
+    end
   end
 
   describe 'Unauthenticated user' do
