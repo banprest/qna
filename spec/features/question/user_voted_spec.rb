@@ -19,6 +19,17 @@ feature 'User can rate question', %q{
       expect(page).to have_content 'Rating: 1'
     end
 
+    scenario 'tried voted again', js: true do 
+      sign_in(user1)
+      visit question_path(question)
+
+      click_on 'Voted +1'
+
+      expect(page).to_not have_content 'Voted +1'
+      expect(page).to_not have_content 'Voted -1'
+      expect(page).to have_content 'Cancel vote'
+    end
+
     scenario 'voted -1', js: true do
       sign_in(user1)
       visit question_path(question)
@@ -40,10 +51,23 @@ feature 'User can rate question', %q{
   end
 
   describe 'Unauthenticated user' do
-    scenario 'tried voted'
+    scenario 'tried voted' do
+      visit question_path(question)
+
+      expect(page).to_not have_content 'Voted +1'
+      expect(page).to_not have_content 'Voted -1'
+      expect(page).to_not have_content 'Cancel vote'
+    end
   end
 
   describe 'Author' do
-    scenario 'tried voted'
+    scenario 'tried voted' do
+      sign_in(user)
+      visit question_path(question)
+
+      expect(page).to_not have_content 'Voted +1'
+      expect(page).to_not have_content 'Voted -1'
+      expect(page).to_not have_content 'Cancel vote'
+    end
   end
 end

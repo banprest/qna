@@ -11,4 +11,8 @@ class User < ApplicationRecord
   def author?(model)
     self.id == model.user_id
   end
+
+  def voted?(model)
+    model.votes.exists?(user_id: self.id)
+  end
 end

@@ -32,4 +32,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'User voted?' do
+    let(:user2) { create(:user) }
+    let(:user1) { create(:user) }
+    let(:user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let!(:vote) { create(:vote, user: user1, votable: question)}
+
+    it  'User voted' do
+      expect(user1).to be_voted(question)
+    end
+
+    it 'User not voted' do
+      expect(user2).to_not be be_voted(question)
+    end
+  end
 end

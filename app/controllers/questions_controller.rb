@@ -4,18 +4,24 @@ class QuestionsController < ApplicationController
     :vote_down, :cancel_vote]
 
   def vote_up
-    @question.vote(current_user, 1)
-    render json: { id: @question.id, rating: @question.rating } 
+    unless current_user.author?(@question)
+      @question.vote(current_user, 1)
+      render json: { id: @question.id, rating: @question.rating, voted: current_user&.voted?(@question) }
+    end 
   end
 
   def vote_down
-    @question.vote(current_user, -1)
-    render json: { id: @question.id, rating: @question.rating }
+    unless current_user.author?(@question)
+      @question.vote(current_user, -1)
+      render json: { id: @question.id, rating: @question.rating, voted: current_user&.voted?(@question) }
+    end
   end
 
   def cancel_vote
-    @question.cancel_vote(current_user)
-    render json: { id: @question.id, rating: @question.rating }
+    unless current_user.author?(@question)
+      @question.cancel_vote(current_user)
+      render json: { id: @question.id, rating: @question.rating, voted: current_user&.voted?(@question) }
+    end
   end
 
   def index
