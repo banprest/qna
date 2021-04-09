@@ -184,4 +184,32 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'POST #vote up' do
+    let(:user1) { create(:user) }
+    before { login(user1) }
+
+    it 'create vote +1' do
+      expect { post :vote_up, params: { id: question } }.to change(Vote, :count).by(1)
+    end
+  end
+
+  describe 'POST #vote down' do
+    let(:user1) { create(:user) }
+    before { login(user1) }
+
+    it 'create vote -1' do
+      expect { post :vote_down, params: { id: question } }.to change(Vote, :count).by(1)
+    end
+  end
+
+  describe 'POST #cancel vote' do
+    let(:user1) { create(:user) }
+    let!(:vote) { create(:vote, user: user1, votable: question)}
+    before { login(user1) }
+
+    it 'cancel vote' do
+      expect { post :cancel_vote, params: { id: question } }.to change(Vote, :count).by(-1)
+    end
+  end
 end

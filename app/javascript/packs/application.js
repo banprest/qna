@@ -13,3 +13,4 @@ require("@nathanvda/cocoon")
 
 require("utilities/answers.js")
 require("utilities/question.js")
+require("utilities/vote.js")

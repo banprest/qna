@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
   resources :attachments, only: :destroy
   resources :questions do
+    member do
+      post :vote_up
+      post :vote_down
+      post :cancel_vote
+    end
     resources :answers, shallow: true do
       member do
         patch :best

@@ -1,6 +1,13 @@
 .question  
   h1= question.title
   p= question.body
+  .question-rating
+    p= link_to 'Voted +1', vote_up_question_path(question), method: :post, remote: true
+    div class = "rating-#{question.id}"
+      - if question.votes.present?
+        p Rating: 
+        = question.rating || 0
+  
   p= question.reward&.reward_title
   .question-files
     - if question.files.attached?

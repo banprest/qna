@@ -1,6 +1,20 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:show, :edit, :update, :destroy, :vote_up,
+    :vote_down, :cancel_vote]
+
+  def vote_up
+    @question.vote(current_user, 1)
+    render json: { id: @question.id, rating: @question.rating } 
+  end
+
+  def vote_down
+    @question.vote(current_user, -1)
+  end
+
+  def cancel_vote
+    @question.cancel_vote(current_user)
+  end
 
   def index
     @questions = Question.all
