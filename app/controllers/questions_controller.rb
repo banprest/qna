@@ -1,28 +1,8 @@
 class QuestionsController < ApplicationController
+  include Voteged
+
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy, :vote_up,
-    :vote_down, :cancel_vote]
-
-  def vote_up
-    unless current_user.author?(@question)
-      @question.vote(current_user, 1)
-      render json: { id: @question.id, rating: @question.rating, voted: current_user&.voted?(@question) }
-    end 
-  end
-
-  def vote_down
-    unless current_user.author?(@question)
-      @question.vote(current_user, -1)
-      render json: { id: @question.id, rating: @question.rating, voted: current_user&.voted?(@question) }
-    end
-  end
-
-  def cancel_vote
-    unless current_user.author?(@question)
-      @question.cancel_vote(current_user)
-      render json: { id: @question.id, rating: @question.rating, voted: current_user&.voted?(@question) }
-    end
-  end
+  before_action :load_question, only: [:show, :edit, :update, :destroy]
 
   def index
     @questions = Question.all

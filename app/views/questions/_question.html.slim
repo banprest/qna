@@ -1,40 +1,8 @@
 .question  
   h1= question.title
   p= question.body
-  .question-rating
-    div class = "rating-#{question.id}"
-      - if question.votes.present?
-        p= "Rating: #{question.rating}"
-    .vote
-      div class = "vote-#{question.id}"
-        -if !current_user&.author?(question) && current_user
-          -if current_user.voted?(question)
-            p= link_to 'Voted +1', vote_up_question_path(question),
-                                   method: :post,
-                                   remote: true,
-                                   class: "vote link-vote-#{question.id} hidden"
-            p= link_to 'Voted -1', vote_down_question_path(question),
-                                   method: :post,
-                                   remote: true,
-                                   class: "vote link-vote-#{question.id} hidden"
-            p= link_to 'Cancel vote', cancel_vote_question_path(question),
-                                      method: :post,
-                                      remote: true,
-                                      class: "vote link-cancel-#{question.id}"
-          
-          - else
-              p= link_to 'Voted +1', vote_up_question_path(question),
-                                     method: :post,
-                                     remote: true,
-                                     class: "vote link-vote-#{question.id}"
-              p= link_to 'Voted -1', vote_down_question_path(question),
-                                     method: :post,
-                                     remote: true,
-                                     class: "vote link-vote-#{question.id}"
-              p= link_to 'Cancel vote', cancel_vote_question_path(question),
-                                        method: :post,
-                                        remote: true,
-                                        class: "vote link-cancel-#{question.id} hidden"
+  = render 'shared/vote', resource: question
+
   p= question.reward&.reward_title
   .question-files
     - if question.files.attached?

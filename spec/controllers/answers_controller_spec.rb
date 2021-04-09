@@ -194,4 +194,61 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #vote up' do
+    describe 'Not Author' do
+      let(:user1) { create(:user) }
+      before { login(user1) }
+
+      it 'create vote +1' do
+        expect { post :vote_up, params: { id: answer } }.to change(Vote, :count).by(1)
+      end
+    end
+    
+    describe 'Author' do
+      it 'author tried create vote + 1' do
+        login(user)
+        expect { post :vote_up, params: { id: answer } }.to_not change(Vote, :count)
+      end
+    end
+  end
+
+  describe 'POST #vote down' do
+    describe 'Not Author' do
+      let(:user1) { create(:user) }
+      before { login(user1) }
+
+      it 'create vote -1' do
+        expect { post :vote_down, params: { id: answer } }.to change(Vote, :count).by(1)
+      end
+    end
+    describe 'Author' do
+      it 'author tried create vote  -1' do
+        login(user)
+        expect { post :vote_down, params: { id: answer } }.to_not change(Vote, :count)
+      end
+    end
+  end
+
+  describe 'POST #cancel vote' do
+    describe 'Not Author' do
+      let(:user1) { create(:user) }
+      let!(:vote) { create(:vote, user: user1, votable: answer)}
+      before { login(user1) }
+
+      it 'cancel vote' do
+        expect { post :cancel_vote, params: { id: answer } }.to change(Vote, :count).by(-1)
+      end
+    end
+
+    describe 'Author' do
+      let(:user1) { create(:user) }
+      let!(:vote) { create(:vote, user: user1, votable: answer)}
+      before { login(user) }
+
+      it 'Author tried cancel vote' do
+        expect { post :cancel_vote, params: { id: answer } }.to_not change(Vote, :count)
+      end
+    end
+  end
 end
