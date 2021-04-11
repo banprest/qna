@@ -6,7 +6,7 @@ module Votable
   end
 
   def rating
-    self.votes.pluck(:value).sum
+    votes.sum(:value)
   end
 
   def vote(user, vote_value)

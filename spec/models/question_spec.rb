@@ -35,6 +35,11 @@ RSpec.describe Question, type: :model do
     it 'vote' do
       expect { question.vote(user1, 1) }.to change(Vote, :count).by(1)
     end
+
+    it 'vote eq +1' do
+      question.vote(user1, 1)
+      expect(question.votes[0].value).to eq 1
+    end
   end
 
   describe 'cancel vote' do
@@ -45,6 +50,11 @@ RSpec.describe Question, type: :model do
 
     it 'Destroy' do
       expect { question.cancel_vote(user1) }.to change(Vote, :count).by(-1)
+    end
+
+    it 'Destroy check object' do
+      question.cancel_vote(user1)
+      expect(question.votes[0]).to eq nil
     end
   end
 end

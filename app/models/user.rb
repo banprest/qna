@@ -9,10 +9,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   def author?(model)
-    self.id == model.user_id
+    id == model.user_id
   end
 
   def voted?(model)
-    model.votes.exists?(user_id: self.id)
+    votes.exists?(votable_id: model.id)
   end
 end
