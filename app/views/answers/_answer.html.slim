@@ -1,6 +1,7 @@
 - if answer.best
   p= 'Best Answer'
 p= answer.body
+= render 'shared/vote', resource: answer
 .answer-files  
   - if answer.files.attached?
     - answer.files.each do |file|

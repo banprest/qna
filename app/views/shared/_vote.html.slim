@@ -1,0 +1,34 @@
+.rating  
+  div class = "rating-#{resource.id}"
+    - if resource.votes.present?
+      p= "Rating: #{resource.rating}"
+  .vote
+    div class = "vote-#{resource.id}"
+      -if !current_user&.author?(resource) && current_user
+        -if current_user.voted?(resource)
+          p= link_to 'Voted +1', polymorphic_path(resource, action: :vote_up),
+                                 method: :post,
+                                 remote: true,
+                                 class: "vote link-vote-#{resource.id} hidden"
+          p= link_to 'Voted -1', polymorphic_path(resource, action: :vote_down),
+                                 method: :post,
+                                 remote: true,
+                                 class: "vote link-vote-#{resource.id} hidden"
+          p= link_to 'Cancel vote', polymorphic_path(resource, action: :cancel_vote),
+                                    method: :post,
+                                    remote: true,
+                                    class: "vote link-cancel-#{resource.id}"
+        
+        - else
+            p= link_to 'Voted +1',polymorphic_path(resource, action: :vote_up),
+                                   method: :post,
+                                   remote: true,
+                                   class: "vote link-vote-#{resource.id}"
+            p= link_to 'Voted -1', polymorphic_path(resource, action: :vote_down),
+                                   method: :post,
+                                   remote: true,
+                                   class: "vote link-vote-#{resource.id}"
+            p= link_to 'Cancel vote', polymorphic_path(resource, action: :cancel_vote),
+                                      method: :post,
+                                      remote: true,
+                                      class: "vote link-cancel-#{resource.id} hidden"

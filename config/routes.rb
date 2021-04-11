@@ -4,8 +4,15 @@ Rails.application.routes.draw do
   resources :rewards, only: :index
   resources :links, only: :destroy
   resources :attachments, only: :destroy
-  resources :questions do
-    resources :answers, shallow: true do
+  concern :votable do
+    member do
+      post :vote_up
+      post :vote_down
+      post :cancel_vote
+    end
+  end
+  resources :questions, concerns: [:votable] do
+    resources :answers, concerns: [:votable], shallow: true do
       member do
         patch :best
       end
