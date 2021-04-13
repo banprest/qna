@@ -1,0 +1,8 @@
+.comment-errors
+= form_with model: [resource, @comment], url: polymorphic_path(resource, action: :create_comment), class: 'new-comment hidden', local: false do |f|
+  
+  p 
+    = f.label :body, 'Comment'
+    = f.text_area :body
+
+  p= f.submit 'Save'

@@ -1,3 +1,6 @@
-= render @questions
+- @questions.each do |question|
+  h3= question.title
+  p= question.body
+  = link_to 'show', question_path(question)
 
 p= link_to 'Ask question', new_question_path

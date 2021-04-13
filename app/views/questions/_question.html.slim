@@ -19,6 +19,8 @@
           = javascript_include_tag link.url + '.js'
         - if current_user&.author?(question)
           p= link_to "Delete link", link_path(link), method: :delete, remote: true
+  .question-comments
+    = render 'comments/comments', resource: question
 
   - if current_user&.author?(question)
     p= link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }

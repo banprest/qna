@@ -11,8 +11,14 @@ Rails.application.routes.draw do
       post :cancel_vote
     end
   end
-  resources :questions, concerns: [:votable] do
-    resources :answers, concerns: [:votable], shallow: true do
+  concern :commentable do
+    member do
+      post :create_comment
+    end
+  end
+
+  resources :questions, concerns: [:votable, :commentable] do
+    resources :answers, concerns: [:votable, :commentable], shallow: true do     
       member do
         patch :best
       end
