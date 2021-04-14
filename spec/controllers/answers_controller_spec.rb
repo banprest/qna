@@ -251,4 +251,28 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'POST #create_comment' do
+    describe 'Authenticate user' do
+      before { login(user) }
+      it 'valid parameters' do
+        expect { post :create_comment, params: { id: answer, comment: attributes_for(:comment) }, format: :js }.to change(answer.comments, :count).by(1) 
+      end
+
+      it 'not valid parameters' do
+        expect { post :create_comment, params: { id: answer, comment: { body: ""} }, format: :js }.to_not change(answer.comments, :count) 
+      end
+
+      it 'render create_comment.js' do
+        post :create_comment, params: { id: answer, comment: attributes_for(:comment) }, format: :js
+        expect(response).to render_template 'comments/_create_comment'
+      end
+    end
+
+    describe 'Not authenticate user' do
+      it 'tried create user' do
+        expect { post :create_comment, params: { id: answer, comment: attributes_for(:comment) } }.to_not change(answer.comments, :count)
+      end 
+    end
+  end
 end

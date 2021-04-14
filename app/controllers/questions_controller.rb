@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
     @answers = @question.answers.sort_by_best
     @answer = @question.answers.new
     @answer.links.new
-    @comment = @question.comments.new
+    @comment = Comment.new
   end
 
   def new

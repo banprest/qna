@@ -40,4 +40,7 @@ p= answer.body
 
   p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
 
+.answer-comments
+  = render 'comments/comments', resource: answer
+
 
