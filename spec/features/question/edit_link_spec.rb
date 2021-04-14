@@ -24,11 +24,11 @@ feature 'User can edit links for question', %q{
         click_on 'add link'
         fill_in 'Link_name', with: 'Google'
         fill_in 'link', with: google_url
-        
+          
         click_on 'Save'
+        
+        expect(page).to have_link 'Google', href: google_url
       end
-      
-      expect(page).to have_link 'Google', href: google_url
     end
 
     scenario 'tried edit invalid link when ask question', js:true do
@@ -36,11 +36,11 @@ feature 'User can edit links for question', %q{
         click_on 'add link'
         fill_in 'Link_name', with: 'Google'
         fill_in 'link', with: 'google_url'
-        
+          
         click_on 'Save'
+     
+        expect(page).to have_content 'Links url is invalid'
       end
-   
-      expect(page).to have_content 'Links url is invalid'
     end
   end
 end

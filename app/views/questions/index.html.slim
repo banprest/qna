@@ -1,6 +1,10 @@
-- @questions.each do |question|
-  h3= question.title
-  p= question.body
-  = link_to 'show', question_path(question)
+h3 Questions
+.questions-list.collection
+  - if @questions.any?
+    = render @questions
+  - else
+    div
+      .col.s6.offset-s3.center No question found
 
-p= link_to 'Ask question', new_question_path
+- if current_user
+  p= link_to 'Ask question', new_question_path
