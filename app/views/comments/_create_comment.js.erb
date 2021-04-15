@@ -1,8 +1,7 @@
 $('.comment-errors').html("<%= render 'shared/errors', resource: @comment %>")
 
 <% if @comment.persisted? %>
-  $('.comments').append('<%= j render 'comments/comment', comment: @comment %>')
   $('.new-comment #comment_body').val('')
-  $('.new-comment').addClass('hidden')
+  $('.new-comment').hide()
   $('.create-comment-link').show()
 <% end %>

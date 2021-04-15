@@ -4,6 +4,7 @@ module Commented
   included do
     before_action :authenticate_user!
     before_action :set_commentable, only: [:create_comment]
+    after_action :publish_comment, only: [:create_comment]
   end
 
   def create_comment
@@ -27,5 +28,14 @@ module Commented
 
   def comment_params
     params.require(:comment).permit(:body)
+  end
+
+  def publish_comment
+    return if @comment.errors.any?
+    ActionCable.server.broadcast(
+      'comments', 
+      comment: @comment, 
+      user_email: @comment.user.email
+    )
   end
 end
