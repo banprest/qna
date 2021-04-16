@@ -1,6 +1,6 @@
 = render 'question_block'
 
-.answers 
+.answers id= "question-#{@question.id}"
   = render @answers
 
 - if current_user

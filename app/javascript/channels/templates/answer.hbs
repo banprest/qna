@@ -1,0 +1,17 @@
+{{#if answer.best}}
+  <p>'Best Answer'</p>
+{{/if}}
+<p>{{answer.body}}</p>
+
+{{#if answer_links}}
+  <div class='links'>
+    <p>Links:</p>
+    <ul>
+      {{#each answer_link}}
+        <li>
+          <a href='{{this.url}}'>{{this.name}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
