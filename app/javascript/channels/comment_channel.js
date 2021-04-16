@@ -10,7 +10,9 @@ consumer.subscriptions.create("CommentChannel", {
   },
 
   received(data) {
-    console.log(data)
-    $('#' + data.comment.commentable_type + '-comments').append('<p>' + data.user_email + '</p>' + '<p>' + data.comment.body + '</p>')
+    const Handlebars = require("handlebars");
+    var source = ('<div class="comment"><p>{{email}}</p><p>{{comment.body}}</p></div>')
+    var template = Handlebars.compile(source);
+    $('#' + data.comment.commentable_type + '-' + data.comment.commentable_id + '-comments').append(template(data))
   }
 });

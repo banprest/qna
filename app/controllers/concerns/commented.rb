@@ -33,9 +33,9 @@ module Commented
   def publish_comment
     return if @comment.errors.any?
     ActionCable.server.broadcast(
-      'comments', 
+      "comments", 
       comment: @comment, 
-      user_email: @comment.user.email
+      email: @comment.user.email
     )
   end
 end

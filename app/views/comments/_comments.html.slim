@@ -1,4 +1,4 @@
-.comments id= "#{resource.class}-comments"
+.comments id= "#{resource.class}-#{resource.id}-comments"
   - resource.comments.each do |comment|   
     = render 'comments/comment', comment: comment
   - if current_user
