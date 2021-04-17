@@ -1,6 +1,5 @@
 class QuestionsController < ApplicationController
   include Voted
-  include Commented
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
@@ -16,6 +15,7 @@ class QuestionsController < ApplicationController
     @answer.links.new
     @comment = Comment.new
     gon.user_id = current_user&.id
+    gon.question_id = @question.id
   end
 
   def new

@@ -1,5 +1,5 @@
 .comment-errors
-= form_with model: @comment, url: polymorphic_path(resource, action: :create_comment), class: 'new-comment hidden', html: { id: "new-comment-#{resource.id}" }, local: false do |f|
+= form_with model: [resource, @comment || Comment.new], class: 'new-comment hidden', html: { id: "new-comment-#{resource.id}" }, local: false do |f|
   
   p 
     = f.label :body, 'Comment'
