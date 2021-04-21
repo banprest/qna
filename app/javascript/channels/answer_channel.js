@@ -18,8 +18,3 @@ consumer.subscriptions.create({channel: "AnswerChannel", question_id: gon.questi
     $('#question-' + data.answer.question_id + '.answers').append(template(data))
   }
 });
-// Я не смог победить handlebars он не рендерит мои шаблоны при коде:
-// const Handlebars = require("handlebars");
-// var source = require('template/answer.hbs')
-// var template = Handlebars.compile(source)
-// я получаю ошибку: Uncaught Error: Cannot find module 'templates/answer.hbs
