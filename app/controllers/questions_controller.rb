@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :edit, :update, :destroy]
+  after_action :publish_question, only: [:create]
 
   def index
     @questions = Question.all
@@ -12,6 +13,9 @@ class QuestionsController < ApplicationController
     @answers = @question.answers.sort_by_best
     @answer = @question.answers.new
     @answer.links.new
+    @comment = Comment.new
+    gon.user_id = current_user&.id
+    gon.question_id = @question.id
   end
 
   def new
@@ -57,5 +61,16 @@ class QuestionsController < ApplicationController
                                     links_attributes: [:id, :name, :url, :_destroy],
                                     reward_attributes: [:reward_title, :image]
                                     )
+  end
+
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast(
+      'questions',
+      ApplicationController.render(
+        partial: 'questions/question',
+        locals: { question: @question }
+      )
+    )
   end
 end

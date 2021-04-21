@@ -1,24 +1,25 @@
-= render @question
+= render 'question_block'
 
-.answers 
+.answers id= "question-#{@question.id}"
   = render @answers
 
-.answer-new
-  .answer-errors
-  = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-    p
-      = f.label :body
-      = f.text_area :body
-    p
-      = f.label :files
-      = f.file_field :files, multiple: true, direct_upload: true
-      
-    h3 Links:
-    #links
-      = f.fields_for :links do |link|
-          = render 'shared/link_fields', f: link
-      .links
-        = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+- if current_user
+  .answer-new
+    .answer-errors
+    = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+      p
+        = f.label :body
+        = f.text_area :body
+      p
+        = f.label :files
+        = f.file_field :files, multiple: true, direct_upload: true
+        
+      h3 Links:
+      #links
+        = f.fields_for :links do |link|
+            = render 'shared/link_fields', f: link
+        .links
+          = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
 
-    p= f.submit 'Accept'
+      p= f.submit 'Accept'
 

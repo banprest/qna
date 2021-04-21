@@ -5,10 +5,9 @@ feature 'User can create question', %q{
   As an authenticate user
   I'd like to be able to ask the question
 }do 
-  
-  describe 'Authenticated user' do
-    given(:user) { create(:user) }
+  given(:user) { create(:user) }
 
+  describe 'Authenticated user' do
     background do
       sign_in(user)
 
@@ -44,10 +43,37 @@ feature 'User can create question', %q{
     end
   end
 
+  describe 'multiply session', js: true do
+    scenario 'questio apears on another user page' do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+        fill_in 'Title', with: 'title title'
+        fill_in 'Body', with: 'text text'
+        click_on 'Ask'
+
+        expect(page).to have_content 'You question successfuly created.'
+        expect(page).to have_content 'title title'
+        expect(page).to have_content 'text text'
+      end
+
+      Capybara.using_session('guest') do
+        expect(page).to have_content 'title title'
+      end
+    end
+  end
+
   scenario 'Unauthenticated user tries asks a question' do
     visit questions_path
-    click_on 'Ask question'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Ask question'
   end
 end

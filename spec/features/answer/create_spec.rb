@@ -41,14 +41,41 @@ feature 'User can create answer', %q{
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
-
   end
+
+  describe 'multiply session', js: true do
+    scenario 'answer apears on another user page' do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Body', with: 'text text' 
+        click_on 'Accept'
+
+        within '.answers' do
+          expect(page).to have_content 'text text'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'text text'
+        end
+      end
+    end
+  end
+
 
   scenario 'Unauthenticated user tried create answer' do
     visit question_path(question)
-    click_on 'Accept'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Accept'
   end
 
 end

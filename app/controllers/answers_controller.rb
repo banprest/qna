@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:index, :new, :create]
   before_action :load_answer, only: [:show, :edit, :update, :destroy, :best]
+  after_action :publish_answer, only: [:create]
 
   def index
     @answers = @question.answers
@@ -23,6 +24,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     @answer.save
+    @comment = Comment.new
   end
 
   def update
@@ -55,5 +57,14 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body, files: [],
                                   links_attributes: [:name, :url])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+    ActionCable.server.broadcast(
+      "answers#{@question.id}", 
+      answer: @answer,
+      answer_link: @answer.links
+    )
   end
 end

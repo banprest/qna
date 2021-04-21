@@ -11,8 +11,11 @@ Rails.application.routes.draw do
       post :cancel_vote
     end
   end
+
   resources :questions, concerns: [:votable] do
-    resources :answers, concerns: [:votable], shallow: true do
+    resources :comments, only: [:create], shallow: true
+    resources :answers, concerns: [:votable], shallow: true do     
+      resources :comments, only: [:create], shallow: true
       member do
         patch :best
       end
@@ -20,4 +23,6 @@ Rails.application.routes.draw do
   end
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end

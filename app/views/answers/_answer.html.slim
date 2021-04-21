@@ -2,22 +2,24 @@
   p= 'Best Answer'
 p= answer.body
 = render 'shared/vote', resource: answer
-.answer-files  
-  - if answer.files.attached?
+
+- if answer.files.attached?
+  .answer-files
     - answer.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
       - if current_user&.author?(answer)
         p= link_to "Delete file", attachment_path(file.id), method: :delete, remote: true
 
-.links
-  p Links:
-  ul
-    -answer.links.each do |link|
-      li= link_to link.name, link.url
-      - if link.gist?
-        = javascript_include_tag link.url + '.js'
-      - if current_user&.author?(answer)
-          p= link_to "Delete link", link_path(link), method: :delete, remote: true
+- if answer.links.any?
+  .links
+    p Links:
+    ul
+      -answer.links.each do |link|
+        li= link_to link.name, link.url
+        - if link.gist?
+          = javascript_include_tag link.url + '.js'
+        - if current_user&.author?(answer)
+            p= link_to "Delete link", link_path(link), method: :delete, remote: true
 
 - if answer.persisted? && current_user&.author?(answer.question)
   p= link_to 'Mark Best', best_answer_path(answer), method: :patch, remote: true 
@@ -39,5 +41,9 @@ p= answer.body
     p= f.submit 'Save'
 
   p= link_to 'Delete answer', answer_path(answer), method: :delete, remote: true
+
+  
+.answer-comments
+  = render 'comments/comments', resource: answer
 
 

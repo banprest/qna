@@ -32,6 +32,7 @@ gem 'devise'
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
 gem 'cocoon'
+gem 'gon'
 
 
 group :development, :test do

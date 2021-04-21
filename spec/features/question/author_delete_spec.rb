@@ -35,12 +35,10 @@ feature 'Author can delete question', %q{
     end
 
     scenario 'delete file with question' do
-      within '.question-files' do
-        expect(page).to have_link 'rails_helper.rb'
-        click_on "Delete file"
+      expect(page).to have_link 'rails_helper.rb'
+      click_on "Delete file"
 
-        expect(page).to_not have_link 'rails_helper.rb'
-      end
+      expect(page).to_not have_link 'rails_helper.rb'
     end
   end
 

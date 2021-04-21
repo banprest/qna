@@ -42,7 +42,7 @@ feature 'User can edit his question', %q{
       end
 
       scenario 'edits his question with files' do
-        within '.question' do
+        within '.question' do  
           attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
           click_on 'Save'
 
