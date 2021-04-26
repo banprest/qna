@@ -35,6 +35,8 @@ gem 'cocoon'
 gem 'gon'
 gem 'omniauth', '~> 1.9', '>= 1.9.1'
 gem 'omniauth-github'
+gem 'omniauth-vkontakte'
+gem 'capybara-email'
 
 
 group :development, :test do

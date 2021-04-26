@@ -14,7 +14,11 @@ feature 'User can sign_up', %q{
     fill_in 'Password confirmation', with: '123456'
     click_on 'Sign up'
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    expect(page).to have_content 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.'
+
+    open_email('test@mail.ru')
+    current_email.click_link 'Confirm my account'
+    expect(page).to have_content 'Your email address has been successfully confirmed.'
   end
 
   scenario 'registrate in invalid attributes' do
