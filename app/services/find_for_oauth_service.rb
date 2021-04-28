@@ -15,10 +15,9 @@ class FindForOauthService
       user.authorizations.create(provider: auth.provider, uid: auth.uid.to_s)
     elsif email
       password = Devise.friendly_token[0, 20]
-      user = User.new(email: email, password: password, password_confirmation: password)
+      user = User.user_create(email, auth)
       user.skip_confirmation!
       user.save!
-      user.authorizations.create(provider: auth.provider, uid: auth.uid.to_s)
     end  
     user
   end

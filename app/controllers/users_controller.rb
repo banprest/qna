@@ -4,9 +4,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    password = Devise.friendly_token[0, 20]
-    @user = User.create!(email: email_params[:email], password: password, password_confirmation: password)
-    @user.authorizations.create(provider: session[:auth]['provider'], uid: session[:auth]['uid'].to_s)
+    @user = User.user_create(email_params[:email], session[:auth])
     redirect_to root_path, alert: 'Confirm email'
   end
 

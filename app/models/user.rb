@@ -23,4 +23,11 @@ class User < ApplicationRecord
   def self.find_for_oauth(auth)
     FindForOauthService.new(auth).call
   end
+
+  def self.user_create(email, auth)
+    password = Devise.friendly_token[0, 20]
+    user = User.create!(email: email, password: password, password_confirmation: password)
+    user.authorizations.create(provider: auth['provider'], uid: auth['uid'].to_s)
+    user
+  end
 end
