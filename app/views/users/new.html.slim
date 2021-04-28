@@ -1,0 +1,7 @@
+= form_with(model: @user, url: user_set_email_path, method: :post) do |f|
+  = render 'shared/errors', resource: @user
+  p 
+    = f.label :email
+    = f.text_field :email
+
+  p= f.submit 'Save'

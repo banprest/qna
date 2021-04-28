@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
+  
+  get '/user/get_email', to: 'users#new'
+  post '/user/set_email', to: 'users#create'
   resources :rewards, only: :index
   resources :links, only: :destroy
   resources :attachments, only: :destroy
