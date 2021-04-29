@@ -9,7 +9,7 @@
       .question-files
         - @question.files.each do |file|
           p= link_to file.filename.to_s, url_for(file)
-          - if current_user&.author?(@question)
+          - if can?(:update, @question)
             p= link_to "Delete file", attachment_path(file.id), method: :delete, remote: true
     - if @question.links.any?  
       .links
@@ -19,13 +19,13 @@
             li= link_to link.name, link.url
             - if link.gist?
               = javascript_include_tag link.url + '.js'
-            - if current_user&.author?(@question)
+            - if can?(:update, @question)
               p= link_to "Delete link", link_path(link), method: :delete, remote: true
     .question-comments
       = render 'comments/comments', resource: @question
     .question-controls
       .row
-        - if current_user&.author?(@question)
+        - if can?(:update, @question)
           .col
             = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
             .question-edit-errors

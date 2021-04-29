@@ -6,5 +6,5 @@ h3 Questions
     div
       .col.s6.offset-s3.center No question found
 
-- if current_user
+- if can?(:create, Question)
   p= link_to 'Ask question', new_question_path
