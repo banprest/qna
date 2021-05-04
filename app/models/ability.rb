@@ -33,13 +33,13 @@ class Ability
     can :destroy, [Link], linkable: { user_id: user.id }
     can :destroy, [Reward], question: { user_id: user.id }
     can :vote_up, [Question, Answer] do |votable|
-      votable.user_id != user.id 
+      !user.author?(votable)
     end 
     can :vote_down, [Question, Answer] do |votable|
-      votable.user_id != user.id 
+      !user.author?(votable)
     end 
     can :cancel_vote, [Question, Answer] do |votable|
-      votable.user_id != user.id
+      !user.author?(votable)
     end 
   end
 end

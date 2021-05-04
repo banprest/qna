@@ -71,7 +71,7 @@ describe Ability do
     it { should_not be_able_to :vote_up, question }
     it { should_not be_able_to :vote_down, question }
     it { should_not be_able_to :cancel_vote, question }
-    it { should be_able_to :vote_up, other_question }
+    it { should be_able_to :vote_up, create(:question, user: other) }
     it { should be_able_to :vote_down, other_question }
     it { should be_able_to :cancel_vote, other_question }
 
