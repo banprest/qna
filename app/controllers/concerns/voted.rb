@@ -9,8 +9,8 @@ module Voted
   def vote_up
     unless current_user.author?(@votable)
       @votable.vote(current_user, 1)
-      render_json_template(@votable)
-    end 
+      render_json_template(@votable) 
+    end
   end
 
   def vote_down

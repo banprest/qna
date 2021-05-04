@@ -12,6 +12,7 @@ class User < ApplicationRecord
          :confirmable, 
          :omniauthable, omniauth_providers: [:github, :vkontakte]
 
+
   def author?(model)
     id == model.user_id
   end

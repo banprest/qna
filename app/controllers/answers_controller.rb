@@ -6,6 +6,8 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: [:show, :edit, :update, :destroy, :best]
   after_action :publish_answer, only: [:create]
 
+  authorize_resource
+  
   def index
     @answers = @question.answers
   end

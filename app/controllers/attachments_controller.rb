@@ -1,5 +1,7 @@
 class AttachmentsController < ApplicationController
 
+  skip_authorization_check
+  
   def destroy
     @file = ActiveStorage::Attachment.find(params[:id])
     @object = @file.record

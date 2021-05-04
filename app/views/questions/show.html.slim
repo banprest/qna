@@ -3,7 +3,7 @@
 .answers id= "question-#{@question.id}"
   = render @answers
 
-- if current_user
+- if can?(:create, Answer)
   .answer-new
     .answer-errors
     = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|

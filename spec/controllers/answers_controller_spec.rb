@@ -143,11 +143,6 @@ RSpec.describe AnswersController, type: :controller do
 
         expect(answer.best).to eq false
       end
-
-      it 'render best' do
-        patch :best, params: { id: answer }, format: :js
-        expect(response).to render_template :best
-      end
     end
   end
 
@@ -174,11 +169,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'tried delete answer' do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Question, :count)
-      end
-
-      it 'render destroy' do
-        delete :destroy, params: { id: answer }, format: :js
-        expect(response).to render_template :destroy
       end
     end
 
