@@ -17,7 +17,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def update
-    @question.update!(question_params)
+    @question.update!(question_params) if current_resource_owner.author?(@question)
     render json: @question
     #не понимаю почему при update он рендерит вопрос при условии что он не валидный хотя в базе прописано nil: false
   end

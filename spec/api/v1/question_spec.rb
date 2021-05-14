@@ -49,7 +49,7 @@ describe 'Questions API', type: :request do
         end
 
         it 'returns public field' do
-          %w[id body user_id question_id created_at updated_at].each do |attr|
+          %w[id body created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
         end
@@ -96,7 +96,7 @@ describe 'Questions API', type: :request do
         end
 
         it 'returns public field' do
-          %w[id body user_id question_id created_at updated_at].each do |attr|
+          %w[id body created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json
           end
         end
@@ -170,7 +170,8 @@ describe 'Questions API', type: :request do
 
   describe 'PATCH /api/v1/questions' do
 
-    let(:question) { create(:question, user: create(:user)) }
+    let(:user) { create(:user) }
+    let!(:question) { create(:question, user: user) }
 
     it_behaves_like 'API Authorizable' do
       let(:method) { :patch }
@@ -178,7 +179,7 @@ describe 'Questions API', type: :request do
     end
 
     context 'authorize' do
-      let(:access_token) { create(:access_token) }
+      let(:access_token) { create(:access_token, resource_owner_id: user.id) }
 
       describe 'with valid attributes' do
         before { patch "/api/v1/questions/#{question.id}", params: { access_token: access_token.token, question: { title: 'UpdatedTitle', body: 'UpdatedBody' } }, headers: headers }
@@ -200,6 +201,17 @@ describe 'Questions API', type: :request do
           #expect(json['question']['title']).to eq 'MyString'
           #expect(json['question']['body']).to eq 'MyText'
         #end 
+      end
+
+      describe 'not author tried update' do
+
+        let(:other_question) { create(:question, user: create(:user)) } 
+
+        it 'returnd title and body not updated object' do
+          patch "/api/v1/questions/#{other_question.id}", params: { access_token: access_token.token, question: { title: 'UpdatedTitle', body: 'UpdatedBody' } }, headers: headers          
+          expect(json['question']['title']).to eq 'MyString'
+          expect(json['question']['body']).to eq 'MyText'
+        end 
       end
     end
   end
