@@ -220,6 +220,7 @@ describe 'Questions API', type: :request do
 
     let(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
+    let!(:other_question) { create(:question, user: create(:user)) }
 
 
     it_behaves_like 'API Authorizable' do
@@ -227,28 +228,12 @@ describe 'Questions API', type: :request do
       let(:api_path) { "/api/v1/questions/#{question.id}" }
     end
 
-    context 'authorize' do
+    it_behaves_like 'API DELETE' do
+      let(:method) { :delete }
+      let(:api_path) { "/api/v1/questions/#{question.id}" }
+      let(:api_path_other) { "/api/v1/questions/#{other_question.id}" }
       let(:access_token) { create(:access_token, resource_owner_id: user.id) }
-
-      it 'returns 200 status' do
-        delete "/api/v1/questions/#{question.id}", params: { access_token: access_token.token }, headers: headers
-        expect(response).to be_successful
-      end
-
-      describe 'current user author' do
-
-        it 'delete question' do
-          expect{ delete "/api/v1/questions/#{question.id}", params: { access_token: access_token.token }, headers: headers }.to change(Question, :count).by(-1)
-        end
-      end
-
-      describe 'current user not author' do
-        let!(:other_question) { create(:question, user: create(:user)) }
-
-        it 'not delete question' do
-          expect{ delete "/api/v1/questions/#{other_question.id}", params: { access_token: access_token.token }, headers: headers }.to_not change(Question, :count)
-        end
-      end
+      let(:object) { Question } 
     end
   end
 end

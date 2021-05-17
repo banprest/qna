@@ -95,7 +95,7 @@ describe 'Answers API', type: :request do
     end
   end
 
-  describe "/api/v1/answers/:id" do
+  describe "PATCH /api/v1/answers/:id" do
     let(:answer) { create(:answer, user: me) }
     let(:me) { create(:user) }
     
@@ -143,6 +143,7 @@ describe 'Answers API', type: :request do
 
     let!(:answer) { create(:answer, user: me) }
     let(:me) { create(:user) }
+    let!(:other_answer) { create(:answer, user: create(:user)) }
 
 
     it_behaves_like 'API Authorizable' do
@@ -150,28 +151,12 @@ describe 'Answers API', type: :request do
       let(:api_path) { "/api/v1/answers/#{answer.id}" }
     end
 
-    context 'authorize' do
+    it_behaves_like 'API DELETE' do
+      let(:method) { :delete }
+      let(:api_path) { "/api/v1/answers/#{answer.id}" }
+      let(:api_path_other) { "/api/v1/answers/#{other_answer.id}" }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
-
-      it 'returns 200 status' do
-        delete "/api/v1/answers/#{answer.id}", params: { access_token: access_token.token }, headers: headers
-        expect(response).to be_successful
-      end
-
-      describe 'current user author' do
-
-        it 'delete answer' do
-          expect{ delete "/api/v1/answers/#{answer.id}", params: { access_token: access_token.token }, headers: headers }.to change(Answer, :count).by(-1)
-        end
-      end
-
-      describe 'current user not author' do
-        let!(:other_answer) { create(:answer, user: create(:user)) } 
-
-        it 'not delete answer' do
-          expect{ delete "/api/v1/answers/#{other_answer.id}", params: { access_token: access_token.token }, headers: headers }.to_not change(Answer, :count)
-        end
-      end
+      let(:object) { Answer } 
     end
   end
 end
