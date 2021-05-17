@@ -1,26 +1,11 @@
 class AnswersController < ApplicationController
   include Voted
 
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:index, :new, :create]
-  before_action :load_answer, only: [:show, :edit, :update, :destroy, :best]
+  before_action :load_question, only: [:create]
+  before_action :load_answer, only: [:update, :destroy, :best]
   after_action :publish_answer, only: [:create]
 
   authorize_resource
-  
-  def index
-    @answers = @question.answers
-  end
-
-  def show
-  end
-
-  def new
-    @answer = @question.answers.new
-  end
-
-  def edit
-  end
 
   def create
     @answer = @question.answers.new(answer_params)

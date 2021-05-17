@@ -4,4 +4,8 @@ module ControllerHelpers
     @request.env['devise.mapping'] = Devise.mappings[:user]
     sign_in(user)
   end
+
+  def do_request(method, action, options = {})
+    send method, options
+  end
 end
