@@ -70,8 +70,8 @@ describe 'Answers API', type: :request do
       let(:value) { [:body] }
       let(:other_object) { create(:answer, user: create(:user)) }
       let(:api_path_other) { "/api/v1/answers/#{other_object.id}" } 
-      let(:params_other) { { access_token: access_token.token, 
-                       answer: { body: 'MyAnswer' } }  }
+      let(:params_invalid) { { access_token: access_token.token, 
+                       answer: { body: nil } }  }
     end
   end
 

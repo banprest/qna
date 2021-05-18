@@ -111,8 +111,8 @@ describe 'Questions API', type: :request do
       let(:value) { [:title, :body] }
       let(:other_object) { create(:question) }
       let(:api_path_other) { "/api/v1/questions/#{other_object.id}" } 
-      let(:params_other) { { access_token: access_token.token, 
-                       question: { title: 'MyTitle', body: 'MyAnswer' } }  }
+      let(:params_invalid) { { access_token: access_token.token, 
+                       question: { title: nil, body: nil } }  }
     end
   end
 

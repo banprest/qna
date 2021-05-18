@@ -53,18 +53,9 @@ shared_examples_for 'API PATH' do
     
     describe 'with invalid attributes' do
 
-      #it 'returnd title and body not updated object' do
-        #patch ""/api/v1/answers/#{answer.id}"", params: { access_token: access_token.token, answer: { body: nil } }, headers: headers          
-        #expect(json['answer']['body']).to eq 'MyText'
-      #end 
-    end
-
-    describe 'not author tried update' do
-      it 'returnd title and body not updated object' do
-        do_request(method, api_path_other, params: params_other , headers: headers)
-        value.each do |attr|
-          expect(json[other_object.class.to_s.downcase][attr.to_s]).to eq other_object.send(attr)
-        end
+      it 'returnd 422 status' do
+        do_request(method, api_path, params: params_invalid , headers: headers)
+        expect(response.status).to eq 422
       end 
     end
   end
@@ -93,8 +84,13 @@ shared_examples_for 'API POST' do
 
     describe 'with invalid attributes' do
       
-      it 'new object' do
+      it 'new not save object' do
         expect{ do_request(method, api_path, params: params_other, headers: headers) }.to_not change(object, :count)
+      end
+
+      it 'return 422 status' do
+        do_request(method, api_path, params: params_other , headers: headers)
+        expect(response.status).to eq 422
       end
     end 
   end

@@ -9,6 +9,15 @@ class Api::V1::BaseController < ApplicationController
 
   private
 
+
+  def status_and_errors(object)
+    render json: object.errors, status: :unprocessable_entity
+  end
+
+  def render_json(object)
+    render json: object
+  end
+
   def current_resource_owner
     @current_resource_owner ||= User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end

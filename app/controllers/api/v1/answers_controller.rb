@@ -1,8 +1,8 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  
-  authorize_resource
 
   before_action :find_answer, only: [:show, :update, :destroy]
+
+  authorize_resource
 
   def show
     render json: @answer
@@ -13,17 +13,16 @@ class Api::V1::AnswersController < Api::V1::BaseController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_resource_owner
     @answer.save
-    render json: @answer if @answer.valid?
+    @answer.valid? ? render_json(@answer) : status_and_errors(@answer)
   end
 
   def update
-    @answer.update!(answer_params) if current_resource_owner.author?(@answer)
-    render json: @answer
-    #не понимаю почему при update он рендерит вопрос при условии что он не валидный хотя в базе прописано nil: false
+    @answer.update(answer_params)
+    @answer.valid? ? render_json(@answer) : status_and_errors(@answer)
   end
 
   def destroy
-    @answer.destroy if current_resource_owner.author?(@answer)
+    @answer.destroy
   end
 
   private
