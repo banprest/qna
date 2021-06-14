@@ -53,10 +53,17 @@ shared_examples_for 'API PATH' do
     
     describe 'with invalid attributes' do
 
+      before { do_request(method, api_path, params: params_invalid , headers: headers) }
+
       it 'returnd 422 status' do
-        do_request(method, api_path, params: params_invalid , headers: headers)
         expect(response.status).to eq 422
-      end 
+      end
+
+      it 'returns errors' do
+        value.each do |attr|
+          expect(json[attr.to_s]).to eq ["can't be blank"]
+        end
+      end
     end
   end
 end
@@ -91,6 +98,13 @@ shared_examples_for 'API POST' do
       it 'return 422 status' do
         do_request(method, api_path, params: params_other , headers: headers)
         expect(response.status).to eq 422
+      end
+
+      it 'returns errors' do
+        do_request(method, api_path, params: params_other , headers: headers)
+        value.each do |attr|
+          expect(json[attr.to_s]).to eq ["can't be blank"]
+        end
       end
     end 
   end
