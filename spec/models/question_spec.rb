@@ -58,4 +58,13 @@ RSpec.describe Question, type: :model do
       expect(question.votes[0]).to eq nil
     end
   end
+
+  describe 'reputation' do
+    let(:question) { build(:question) }
+
+    it 'calls ReputationJob' do
+      expect(ReputationJob).to receive(:perform_later).with(question)
+      question.save!
+    end
+  end
 end
