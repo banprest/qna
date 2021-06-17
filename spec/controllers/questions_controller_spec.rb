@@ -92,6 +92,10 @@ RSpec.describe QuestionsController, type: :controller do
       let(:invalid_params) { { question: attributes_for(:question, :invalid) } }
     end
 
+    it 'create subscribe subscribe' do
+      expect { post :create, params: { question: attributes_for(:question) } }.to change(Subscription, :count).by(1)
+    end
+
     context 'with valid attributes' do
       it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question) }
@@ -146,6 +150,35 @@ RSpec.describe QuestionsController, type: :controller do
     it_behaves_like 'POST cancel_vote' do
       let!(:vote) { create(:vote, user: user1, votable: question)}
       let(:params) { { id: question } }
+    end
+  end
+
+  describe 'POST #subscribe' do
+    before { login(user) }
+
+    it 'was not subscribe' do
+      expect { post :subscribe, params: { id: question } }.to change(Subscription, :count).by(1)
+    end
+
+    describe do
+      let!(:subscription) { create(:subscription, user: user, question: question, notification: false) }
+      it 'was subscribe' do
+        post :subscribe, params: { id: question}
+        subscription.reload
+        expect(subscription.notification).to eq true
+      end
+    end
+  end
+
+  describe 'POST #unsubscribe' do
+    before { login(user) }
+
+    let!(:subscription) { create(:subscription, user: user, question: question, notification: true) }
+    
+    it 'was subscribe' do
+      post :unsubscribe, params: { id: question}
+      subscription.reload
+      expect(subscription.notification).to eq false
     end
   end
 end

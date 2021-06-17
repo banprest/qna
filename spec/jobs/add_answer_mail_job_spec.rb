@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AddAnswerMailJob, type: :job do
-  let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let(:question) { create(:question) }
 
   let(:service) { double('AddAnswerMail') }
 
@@ -11,7 +10,7 @@ RSpec.describe AddAnswerMailJob, type: :job do
   end
 
   it 'calls AddAnswerMailt#send_digest' do
-    expect(service).to receive(:send_digest).with(user, question)
-    AddAnswerMailJob.perform_now(user, question)
+    expect(service).to receive(:send_digest).with(question)
+    AddAnswerMailJob.perform_now(question)
   end
 end

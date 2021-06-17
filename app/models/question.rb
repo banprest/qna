@@ -2,6 +2,8 @@ class Question < ApplicationRecord
   include Votable
   include Commentable
   
+  has_many :subscriptions
+  has_many :users, through: :subscriptions
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_one :reward, dependent: :destroy
@@ -15,6 +17,10 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   after_create :calculate_reputation
+
+  def subscribed?(user)
+    subscriptions.exists?(user_id: user, notification: true)
+  end
 
   private
 

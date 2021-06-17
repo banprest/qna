@@ -27,6 +27,6 @@ class Answer < ApplicationRecord
   private
 
   def digest_for_new_answer
-    AddAnswerMailJob.perform_later(self.question.user, self.question)
+    AddAnswerMailJob.perform_later(self.question)
   end
 end

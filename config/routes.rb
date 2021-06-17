@@ -23,6 +23,10 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: [:votable] do
+    member do
+      post :subscribe
+      post :unsubscribe
+    end
     resources :comments, only: [:create], shallow: true
     resources :answers, only: [:create, :update, :destroy], concerns: [:votable], shallow: true do     
       resources :comments, only: [:create], shallow: true

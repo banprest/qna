@@ -1,7 +1,7 @@
 class AddAnswerMailJob < ApplicationJob
   queue_as :default
 
-  def perform(user, question)
-    AddAnswerMail.new.send_digest(user, question)
+  def perform(question)
+    AddAnswerMail.new.send_digest(question)
   end
 end
