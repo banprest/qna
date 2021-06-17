@@ -60,4 +60,13 @@ RSpec.describe Answer, type: :model do
       end
     end
   end
+
+  describe 'add_answer' do
+    let(:answer) { build(:answer) }
+
+    it 'calls AddAnswerMailJob' do
+      expect(AddAnswerMailJob).to receive(:perform_later)
+      answer.save!
+    end
+  end
 end
