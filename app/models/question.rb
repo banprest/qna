@@ -19,7 +19,7 @@ class Question < ApplicationRecord
   after_create :calculate_reputation
 
   def subscribed?(user)
-    subscriptions.exists?(user_id: user, notification: true)
+    subscriptions.exists?(user_id: user)
   end
 
   private

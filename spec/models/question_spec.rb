@@ -72,10 +72,8 @@ RSpec.describe Question, type: :model do
   describe '#subscribed?' do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
-    let(:other_user1) { create(:user) }
     let(:question) { create(:question, user: user) }
-    let!(:subscription_true) { create(:subscription, user: user, question: question) }
-    let!(:subscription_false) { create(:subscription, user: other_user, question: question, notification: false) }
+    let!(:subscription) { create(:subscription, user: user, question: question) }
 
     it 'user was subscribe notification true' do
       expect(question).to be_subscribed(user)
@@ -83,10 +81,6 @@ RSpec.describe Question, type: :model do
 
     it 'user was subskribe notification false' do
       expect(question).to_not be_subscribed(other_user)
-    end
-
-    it 'user was not subskribe' do
-      expect(question).to_not be_subscribed(other_user1)
     end
   end
 end

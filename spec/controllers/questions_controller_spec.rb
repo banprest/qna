@@ -152,33 +152,4 @@ RSpec.describe QuestionsController, type: :controller do
       let(:params) { { id: question } }
     end
   end
-
-  describe 'POST #subscribe' do
-    before { login(user) }
-
-    it 'was not subscribe' do
-      expect { post :subscribe, params: { id: question } }.to change(Subscription, :count).by(1)
-    end
-
-    describe do
-      let!(:subscription) { create(:subscription, user: user, question: question, notification: false) }
-      it 'was subscribe' do
-        post :subscribe, params: { id: question}
-        subscription.reload
-        expect(subscription.notification).to eq true
-      end
-    end
-  end
-
-  describe 'POST #unsubscribe' do
-    before { login(user) }
-
-    let!(:subscription) { create(:subscription, user: user, question: question, notification: true) }
-    
-    it 'was subscribe' do
-      post :unsubscribe, params: { id: question}
-      subscription.reload
-      expect(subscription.notification).to eq false
-    end
-  end
 end

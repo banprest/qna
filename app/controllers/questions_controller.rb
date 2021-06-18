@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   include Voted
 
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
+  before_action :load_question, only: [:show, :edit, :update, :destroy]
   after_action :publish_question, only: [:create]
 
   authorize_resource
@@ -16,6 +16,7 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.new
     @answer.links.new
     @comment = Comment.new
+    @subscribe = Subscription.find_by(user_id: current_user&.id)
     gon.user_id = current_user&.id
     gon.question_id = @question.id
   end
@@ -50,22 +51,6 @@ class QuestionsController < ApplicationController
     else
       redirect_to question_path(@question), notice: 'You not author question'
     end
-  end
-
-  def subscribe
-    @subscribe = Subscription.find_by(user_id: current_user.id)
-    if @subscribe.present?
-      @subscribe.update!(notification: true)
-    else
-      @question.subscriptions.create!(user_id: current_user&.id)
-    end
-    render json: { id: @question.id }
-  end
-
-  def unsubscribe
-    @subscribe = Subscription.find_by(user_id: current_user.id)  
-    @subscribe.update!(notification: false)
-    render json: { id: @question.id }
   end
 
   private

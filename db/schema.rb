@@ -158,7 +158,6 @@ ActiveRecord::Schema.define(version: 2021_06_17_152613) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.boolean "notification", default: true
     t.bigint "question_id"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
