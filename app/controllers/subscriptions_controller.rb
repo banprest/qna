@@ -5,13 +5,15 @@ class SubscriptionsController < ApplicationController
   authorize_resource
 
   def create
-    @subscribe = Subscription.find_by(user_id: current_user&.id)
-    @question.subscriptions.create!(user: current_user)
+    @subscribe = current_user&.subscriptions&.find_by(question: @question)
+    if @subscribe.nil?
+      @question.subscriptions.create!(user: current_user)
+    end
     render json: { question_id: @question.id }
   end
 
   def destroy
-    @subscribe = Subscription.find_by(user_id: current_user&.id)  
+    @subscribe = current_user&.subscriptions&.find_by(question: @question)
     @subscribe.destroy
     render json: { question_id: @question.id }
   end

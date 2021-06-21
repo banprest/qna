@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_many :subscriptions
-  has_many :questions, through: :subscriptions
+  has_many :sub_questions, through: :subscriptions, source: :question
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :rewards, dependent: :destroy

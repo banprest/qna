@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Question, type: :model do
   it { should have_many(:subscriptions) }
+   it { should have_many(:users).through(:subscriptions) }
   it { should have_many(:links).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
@@ -81,6 +82,15 @@ RSpec.describe Question, type: :model do
 
     it 'user was subskribe notification false' do
       expect(question).to_not be_subscribed(other_user)
+    end
+  end
+
+  describe 'create_subscribe' do
+    let(:question) { build(:question) }
+
+    it 'question create' do
+      question.save!
+      expect(question.subscriptions.count).to eq 1
     end
   end
 end

@@ -1,5 +1,13 @@
 = render 'question_block'
 
+.question-subscribe
+  - if current_user
+    - if @question.subscribed?(current_user)
+      = link_to 'Unsubscribe', question_subscription_path(@question, @subscribe), method: :delete, remote: true
+    - else  
+      = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, remote: true
+
+
 .answers id= "question-#{@question.id}"
   = render @answers
 

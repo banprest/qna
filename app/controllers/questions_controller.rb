@@ -16,7 +16,7 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.new
     @answer.links.new
     @comment = Comment.new
-    @subscribe = Subscription.find_by(user_id: current_user&.id)
+    @subscribe = current_user&.subscriptions&.find_by(question: @question)
     gon.user_id = current_user&.id
     gon.question_id = @question.id
   end
@@ -33,7 +33,6 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.new(question_params)
     if @question.save
-      @question.subscriptions.create!(user_id: current_user&.id)
       redirect_to @question, notice: 'You question successfuly created.'
     else
       render :new
