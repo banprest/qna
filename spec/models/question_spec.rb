@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Question, type: :model do
+  it { should have_many(:subscriptions) }
+   it { should have_many(:users).through(:subscriptions) }
   it { should have_many(:links).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
@@ -56,6 +58,39 @@ RSpec.describe Question, type: :model do
     it 'Destroy check object' do
       question.cancel_vote(user1)
       expect(question.votes[0]).to eq nil
+    end
+  end
+
+  describe 'reputation' do
+    let(:question) { build(:question) }
+
+    it 'calls ReputationJob' do
+      expect(ReputationJob).to receive(:perform_later).with(question)
+      question.save!
+    end
+  end
+
+  describe '#subscribed?' do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+    let(:question) { create(:question, user: user) }
+    let!(:subscription) { create(:subscription, user: user, question: question) }
+
+    it 'user was subscribe notification true' do
+      expect(question).to be_subscribed(user)
+    end
+
+    it 'user was subskribe notification false' do
+      expect(question).to_not be_subscribed(other_user)
+    end
+  end
+
+  describe 'create_subscribe' do
+    let(:question) { build(:question) }
+
+    it 'question create' do
+      question.save!
+      expect(question.subscriptions.count).to eq 1
     end
   end
 end

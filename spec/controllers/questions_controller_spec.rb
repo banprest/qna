@@ -92,6 +92,10 @@ RSpec.describe QuestionsController, type: :controller do
       let(:invalid_params) { { question: attributes_for(:question, :invalid) } }
     end
 
+    it 'create subscribe subscribe' do
+      expect { post :create, params: { question: attributes_for(:question) } }.to change(Subscription, :count).by(1)
+    end
+
     context 'with valid attributes' do
       it 'redirects to show view' do
         post :create, params: { question: attributes_for(:question) }

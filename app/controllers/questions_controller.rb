@@ -16,6 +16,7 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.new
     @answer.links.new
     @comment = Comment.new
+    @subscription = current_user&.subscriptions&.find_by(question: @question)
     gon.user_id = current_user&.id
     gon.question_id = @question.id
   end
