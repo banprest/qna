@@ -1,0 +1,13 @@
+- @objects.each do |object|
+  - if object.is_a?(Question)
+    h3= link_to object.title, question_path(object)
+    p= object.body
+  - elsif object.is_a?(Answer)
+    p= object.body
+  - elsif object.is_a?(Comment)
+    p= object.body
+  - elsif object.is_a?(User)
+    p= object.email
+  - else 
+    p= Ничего не найдено
+
