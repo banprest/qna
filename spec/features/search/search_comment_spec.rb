@@ -13,6 +13,7 @@ feature 'User can search for comment', %q{
 
     ThinkingSphinx::Test.run do
       fill_in 'Search for:', with: comment.body
+      choose(option: 'Comment')
       click_on 'Search'
       
 

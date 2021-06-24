@@ -3,12 +3,13 @@ class SearchesController < ApplicationController
   authorize_resource
 
   def search
-    @objects = ThinkingSphinx.search ThinkingSphinx::Query.escape(searched_params[:query])
+    @types = ['all', 'Question', 'Answer', 'User', 'Comment']
+    @objects = SearchService.new(searched_params).call
   end
 
   private
 
   def searched_params
-    params.permit(:query)
+    params.permit(:query, :type)
   end
 end

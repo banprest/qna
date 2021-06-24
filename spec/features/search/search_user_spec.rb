@@ -13,6 +13,7 @@ feature 'User can search for user', %q{
 
     ThinkingSphinx::Test.run do
       fill_in 'Search for:', with: user.email
+      choose(option: 'User')
       click_on 'Search'
       
 

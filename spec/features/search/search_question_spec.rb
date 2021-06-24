@@ -13,6 +13,7 @@ feature 'User can search for question', %q{
 
     ThinkingSphinx::Test.run do
       fill_in 'Search for:', with: question.title
+      choose(option: 'Question')
       click_on 'Search'
       
       expect(page).to have_content question.title
