@@ -21,13 +21,10 @@ feature 'Author can mark best answer', %q{
 
       expect(page).to have_content 'Best Answer'
     end
-    # Упали тесты на выделение лучшего ответа автором. Перестал ставится флаг best true при клике на Mark Best
-    # В девелопмент все работает
 
     visit rewards_path
 
-
-    #expect(page).to have_content reward.reward_title
-    #expect(page).to have_content question.title 
+    expect(page).to have_content reward.reward_title
+    expect(page).to have_content question.title 
   end
 end

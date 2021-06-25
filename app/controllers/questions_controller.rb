@@ -8,7 +8,7 @@ class QuestionsController < ApplicationController
   authorize_resource
   
   def index
-    @types = ['all', 'Question', 'Answer', 'User', 'Comment']
+    @types = SearchService::TYPES
     @questions = Question.all
   end
 

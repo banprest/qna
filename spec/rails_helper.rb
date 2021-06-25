@@ -41,21 +41,6 @@ RSpec.configure do |config|
   config.include OmniauthHelpers
   config.include ApiHelpers, type: :request
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with :truncation, except: %w(ar_internal_metadata)
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
 
   Capybara.javascript_driver = :selenium_chrome_headless
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -64,7 +49,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

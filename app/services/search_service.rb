@@ -1,15 +1,20 @@
 class SearchService
   attr_reader :type, :query
   
-  TYPES = { all: ThinkingSphinx, Answer: Answer, Comment: Comment, User: User, Question: Question }
+  TYPES = %w(all Answer Comment User Question)
 
   def initialize(params)
-    @type = params[:type].to_sym
+    @type = params[:type]
     @query = params[:query]
   end
 
   def call
-    TYPES[type].search ThinkingSphinx::Query.escape(query)
+    if TYPES.include?(type)
+      if type == 'all'
+       ThinkingSphinx.search ThinkingSphinx::Query.escape(query)
+      else 
+        type.constantize.search ThinkingSphinx::Query.escape(query)
+      end
+    end
   end
-
 end
