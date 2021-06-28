@@ -14,3 +14,5 @@ require("utilities/answers.js")
 require("utilities/question.js")
 require("utilities/vote.js")
 require("utilities/comment.js")
+
+import "bootstrap"

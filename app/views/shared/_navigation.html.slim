@@ -1,0 +1,11 @@
+nav class = "navbar navbar-light bg-light"
+  div class='container-fluid'
+    = link_to 'QnA', questions_path, class: 'navbar-brand'
+    span class = "navbar-text"
+      - if current_user
+        = "Welcome, #{current_user.email} "
+        = link_to ' Log out', destroy_user_session_path, method: :delete
+      -else
+        = link_to 'Log in |', new_user_session_path 
+        = link_to ' Register', new_user_registration_path 
+    = render 'shared/form_search'

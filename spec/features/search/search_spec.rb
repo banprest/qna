@@ -15,7 +15,7 @@ feature 'User can search  ', %q{
     visit questions_path
 
     ThinkingSphinx::Test.run do
-      fill_in 'Search for:', with: answer.body
+      fill_in id: 'query', with: answer.body
       choose(option: 'Answer')
       click_on 'Search'
       
@@ -27,7 +27,7 @@ feature 'User can search  ', %q{
     visit questions_path
 
     ThinkingSphinx::Test.run do
-      fill_in 'Search for:', with: 'title'
+      fill_in id: 'query', with: 'title'
       choose(option: 'all')
       click_on 'Search'
       
@@ -42,7 +42,7 @@ feature 'User can search  ', %q{
     visit questions_path
 
     ThinkingSphinx::Test.run do
-      fill_in 'Search for:', with: user.email
+      fill_in id: 'query', with: user.email
       choose(option: 'User')
       click_on 'Search'
       
@@ -55,7 +55,7 @@ feature 'User can search  ', %q{
     visit questions_path
 
     ThinkingSphinx::Test.run do
-      fill_in 'Search for:', with: question.title
+      fill_in id: 'query', with: question.title
       choose(option: 'Question')
       click_on 'Search'
       
@@ -67,7 +67,7 @@ feature 'User can search  ', %q{
     visit questions_path
 
     ThinkingSphinx::Test.run do
-      fill_in 'Search for:', with: comment.body
+      fill_in id: 'query', with: comment.body
       choose(option: 'Comment')
       click_on 'Search'
       
