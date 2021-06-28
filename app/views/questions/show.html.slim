@@ -14,20 +14,24 @@
 - if can?(:create, Answer)
   .answer-new
     .answer-errors
-    = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-      p
-        = f.label :body
-        = f.text_area :body
-      p
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
-        
-      h3 Links:
-      #links
-        = f.fields_for :links do |link|
-            = render 'shared/link_fields', f: link
-        .links
-          = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+    .col.col-md-4'
+      .card.border-primary'
+        .card-body
+          h5= 'New Answer:'
+          = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+            .mb-3
+              = f.label :body, class: 'form-label'
+              = f.text_area :body, class: 'form-control'
+            .mb-3
+              = f.label :files, class: 'form-label'
+              = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control'
+              
+            h3 Links:
+            #links
+              = f.fields_for :links do |link|
+                  = render 'shared/link_fields', f: link
+              .links
+                = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
 
-      p= f.submit 'Accept'
+            = f.submit 'Accept', class: 'btn btn-primary mt-1'
 

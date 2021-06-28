@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
-  
+  get '/search', to: 'searches#search'  
   get '/user/get_email', to: 'users#new'
   post '/user/set_email', to: 'users#create'
   resources :rewards, only: :index

@@ -1,0 +1,11 @@
+= form_with url: '/search', method: :get, class: 'd-flex' do |form|
+    
+  - @types.each do |type|
+    div class='form-check form-check-inline'
+      = form.radio_button :type, type, class: 'form-check-input'
+      = form.label :type, type, class: 'form-check-label'
+
+  div class='mb-3'
+    = form.text_field :query, class: 'form-control me-2', aria_label: 'Search', placeholder: 'Search:'
+   
+  = form.submit 'Search', class: 'btn btn-outline-success'

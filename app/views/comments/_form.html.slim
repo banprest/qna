@@ -1,8 +1,8 @@
 .comment-errors
-= form_with model: [resource, @comment || Comment.new], class: 'new-comment hidden', html: { id: "new-comment-#{resource.id}" }, local: false do |f|
+= form_with model: [resource, @comment || Comment.new], class: 'new-comment hidden mt-1', html: { id: "new-comment-#{resource.id}" }, local: false do |f|
   
-  p 
-    = f.label :body, 'Comment'
-    = f.text_area :body
+  .mb-3 
+    = f.label :body, 'Comment', class: 'form-label'
+    = f.text_area :body, class: 'form-control'
 
-  p= f.submit 'Save'
+  = f.submit 'Save', class: 'btn btn-primary'

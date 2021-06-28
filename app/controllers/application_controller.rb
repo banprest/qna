@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :load_types
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
@@ -9,5 +10,10 @@ class ApplicationController < ActionController::Base
   end
 
   check_authorization unless: :devise_controller?
- 
+  
+  private
+
+  def load_types
+    @types = SearchService::TYPES
+  end
 end
