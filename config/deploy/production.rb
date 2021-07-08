@@ -32,5 +32,3 @@ set :ssh_options, {
   port: 2222
 }
 
-set :pty, false
-
