@@ -1,13 +1,13 @@
-div class='row gx-5 mt-3'
+- cache collection_cahe_key_for :question do
+  div class='row gx-5 mt-3'
+    div class='col'
+      h3 Questions
+      .questions-list.collection
+        - if @questions.any?
+          = render @questions
+        - else
+          div
+            .col.s6.offset-s3.center No question found
 
-  div class='col'
-    h3 Questions
-    .questions-list.collection
-      - if @questions.any?
-        = render @questions
-      - else
-        div
-          .col.s6.offset-s3.center No question found
-
-    - if can?(:create, Question)
-      p= link_to 'Ask question', new_question_path
+      - if can?(:create, Question)
+        p= link_to 'Ask question', new_question_path
