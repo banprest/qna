@@ -1,37 +1,38 @@
-= render 'question_block'
+- cache @question do  
+  = render 'question_block'
 
-.question-subscribe
-  - if current_user
-    - if @question.subscribed?(current_user)
-      = link_to 'Unsubscribe', question_subscription_path(@question, @subscription), method: :delete, remote: true
-    - else  
-      = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, remote: true
+  .question-subscribe
+    - if current_user
+      - if @question.subscribed?(current_user)
+        = link_to 'Unsubscribe', question_subscription_path(@question, @subscription), method: :delete, remote: true
+      - else  
+        = link_to 'Subscribe', question_subscriptions_path(@question), method: :post, remote: true
 
 
-.answers id= "question-#{@question.id}"
-  = render @answers
+  .answers id= "question-#{@question.id}"
+    = render @answers
 
-- if can?(:create, Answer)
-  .answer-new
-    .answer-errors
-    .col.col-md-4'
-      .card.border-primary'
-        .card-body
-          h5= 'New Answer:'
-          = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
-            .mb-3
-              = f.label :body, class: 'form-label'
-              = f.text_area :body, class: 'form-control'
-            .mb-3
-              = f.label :files, class: 'form-label'
-              = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control'
-              
-            h3 Links:
-            #links
-              = f.fields_for :links do |link|
-                  = render 'shared/link_fields', f: link
-              .links
-                = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
+  - if can?(:create, Answer)
+    .answer-new
+      .answer-errors
+      .col.col-md-4
+        .card.border-primary
+          .card-body
+            h5= 'New Answer:'
+            = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+              .mb-3
+                = f.label :body, class: 'form-label'
+                = f.text_area :body, class: 'form-control'
+              .mb-3
+                = f.label :files, class: 'form-label'
+                = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control'
+                
+              h3 Links:
+              #links
+                = f.fields_for :links do |link|
+                    = render 'shared/link_fields', f: link
+                .links
+                  = link_to_add_association 'add link', f, :links, partial: 'shared/link_fields'
 
-            = f.submit 'Accept', class: 'btn btn-primary mt-1'
+              = f.submit 'Accept', class: 'btn btn-primary mt-1'
 
