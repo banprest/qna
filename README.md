@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Приложение для вопросов и ответов
 
-Things you may want to cover:
+Использованные технологии:
 
-* Ruby version
+1.TDD/BDD(Capybara/RSpec)
 
-* System dependencies
+2.ActiionCable
 
-* Configuration
+3.oAuth
 
-* Database creation
+4.cancancan
 
-* Database initialization
+5.ActiveJob
 
-* How to run the test suite
+6.SphinxSearch
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
